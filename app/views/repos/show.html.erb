@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @repo.company %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @repo.organization %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @repo.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @repo.description %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @repo.url %>
+</p>
+
+<%= link_to 'Edit', edit_repo_path(@repo) %> |
+<%= link_to 'Back', repos_path %>

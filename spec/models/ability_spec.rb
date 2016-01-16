@@ -17,7 +17,7 @@ RSpec.describe Ability do
       let(:role) { 'User' }
 
       it 'allows read all' do
-        expect_any_instance_of(Ability).to receive(:can).with(:read, :all)
+        expect_any_instance_of(Ability).to receive(:can).with(:read, Repo)
         Ability.new(user)
       end
     end
