@@ -13,5 +13,4 @@ class Ability
       can :destroy, Repo, owner_id: user.id
     end
   end
-
 end

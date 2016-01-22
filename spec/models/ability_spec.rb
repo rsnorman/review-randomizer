@@ -17,7 +17,7 @@ RSpec.describe Ability do
       @attributes = attributes
     end
 
-    failure_message do |ability|
+    failure_message do |_ability|
       message  = "expected to be authorized to #{action} #{subject}"
       message += " with #{@attributes}" if @attributes
       message

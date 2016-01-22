@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   ADMIN_ROLE = 'Admin'.freeze
 
   has_many :repos, dependent: :destroy
@@ -12,5 +11,4 @@ class User < ActiveRecord::Base
   def admin?
     role == ADMIN_ROLE
   end
-
 end
