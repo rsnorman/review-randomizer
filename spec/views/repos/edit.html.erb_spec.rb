@@ -2,13 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "repos/edit", type: :view do
   before(:each) do
-    @repo = assign(:repo, Repo.create!(
-      :company => "MyString",
-      :organization => "MyString",
-      :name => "MyString",
-      :description => "MyString",
-      :url => "MyString"
-    ))
+    @repo = assign(:repo, FactoryGirl.create(:repo))
   end
 
   it "renders the edit repo form" do

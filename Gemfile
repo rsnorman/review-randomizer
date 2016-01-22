@@ -44,6 +44,9 @@ group :development, :test do
 
   # For fixtures and junk
   gem 'factory_girl_rails'
+
+  # For faking names, emails, and junk
+  gem 'faker'
 end
 
 group :development do
@@ -53,4 +56,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

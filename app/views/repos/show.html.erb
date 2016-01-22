@@ -25,5 +25,10 @@
   <%= @repo.url %>
 </p>
 
+<p>
+  <strong>Owner:</strong>
+  <%= @repo.owner.name %>
+</p>
+
 <%= link_to 'Edit', edit_repo_path(@repo) %> |
 <%= link_to 'Back', repos_path %>

@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :user do
-    name 'Ryan Norman'
-    handle 'rsnorman'
+    name { Faker::Name.name }
+    handle { Faker::Internet.user_name }
     role 'User'
-    email 'rsnorman@gmail.com'
-    password 'test123'
+    email { Faker::Internet.email }
+    password { Faker::Internet.password(8) }
   end
 
   factory :admin, class: User do

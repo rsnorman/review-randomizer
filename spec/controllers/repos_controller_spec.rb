@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ReposController, type: :controller do
-  login_admin
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Repo. As you add validations to Repo, be sure to
@@ -13,6 +13,7 @@ RSpec.describe ReposController, type: :controller do
       name: 'Review Randomizer',
       description: 'Assigns random team members to review Pull Requests',
       url: 'http://www.github.com/review-randomizer',
+      owner: @user,
     ]
   }
 
@@ -76,6 +77,11 @@ RSpec.describe ReposController, type: :controller do
       it "redirects to the created repo" do
         post :create, {:repo => valid_attributes}, valid_session
         expect(response).to redirect_to(Repo.last)
+      end
+
+      it 'assigns the owner as the current user' do
+        post :create, {:repo => valid_attributes}, valid_session
+        expect(assigns(:repo).owner).to eq @user
       end
     end
 
