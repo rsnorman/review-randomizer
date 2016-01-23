@@ -1,3 +1,4 @@
+# Authorizations class for the whole review randomizer
 class Ability
   include CanCan::Ability
 
@@ -13,5 +14,4 @@ class Ability
       can :destroy, Repo, owner_id: user.id
     end
   end
-
 end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Repos", type: :request do
-  describe "GET /repos" do
-    it "works! (now write some real specs)" do
+RSpec.describe 'Repos', type: :request do
+  describe 'GET /repos' do
+    it 'works! (now write some real specs)' do
       pending
       get repos_path
       expect(response).to have_http_status(200)
