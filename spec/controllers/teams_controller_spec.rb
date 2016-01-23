@@ -4,7 +4,7 @@ RSpec.describe TeamsController, type: :controller do
   login_user
 
   let(:valid_attributes) do
-    FactoryGirl.attributes_for(:team)
+    FactoryGirl.attributes_for(:team, leader: @user)
   end
 
   let(:invalid_attributes) do
@@ -17,7 +17,7 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET #index' do
     it 'assigns all teams as @teams' do
-      team = FactoryGirl.create(:team)
+      team = FactoryGirl.create(:team, leader: @user)
       get :index, {}, valid_session
       expect(assigns(:teams)).to eq([team])
     end
@@ -25,7 +25,7 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET #show' do
     it 'assigns the requested team as @team' do
-      team = FactoryGirl.create(:team)
+      team = FactoryGirl.create(:team, leader: @user)
       get :show, { id: team.to_param }, valid_session
       expect(assigns(:team)).to eq(team)
     end
@@ -40,7 +40,7 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET #edit' do
     it 'assigns the requested team as @team' do
-      team = FactoryGirl.create(:team)
+      team = FactoryGirl.create(:team, leader: @user)
       get :edit, { id: team.to_param }, valid_session
       expect(assigns(:team)).to eq(team)
     end
@@ -88,14 +88,14 @@ RSpec.describe TeamsController, type: :controller do
       end
 
       it 'updates the requested team' do
-        team = FactoryGirl.create(:team)
+        team = FactoryGirl.create(:team, leader: @user)
         put :update, { id: team.to_param, team: new_attributes }, valid_session
         team.reload
         expect(team.name).to eq('Centralmotrons')
       end
 
       it 'assigns the requested team as @team' do
-        team = FactoryGirl.create(:team)
+        team = FactoryGirl.create(:team, leader: @user)
         put(
           :update, { id: team.to_param, team: valid_attributes }, valid_session
         )
@@ -103,7 +103,7 @@ RSpec.describe TeamsController, type: :controller do
       end
 
       it 'redirects to the team' do
-        team = FactoryGirl.create(:team)
+        team = FactoryGirl.create(:team, leader: @user)
         put(
           :update, { id: team.to_param, team: valid_attributes }, valid_session
         )
@@ -113,7 +113,7 @@ RSpec.describe TeamsController, type: :controller do
 
     context 'with invalid params' do
       it 'assigns the team as @team' do
-        team = FactoryGirl.create(:team)
+        team = FactoryGirl.create(:team, leader: @user)
         put(
           :update,
           { id: team.to_param, team: invalid_attributes },
@@ -123,7 +123,7 @@ RSpec.describe TeamsController, type: :controller do
       end
 
       it "re-renders the 'edit' template" do
-        team = FactoryGirl.create(:team)
+        team = FactoryGirl.create(:team, leader: @user)
         put(
           :update,
           { id: team.to_param, team: invalid_attributes },
@@ -136,14 +136,14 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the requested team' do
-      team = FactoryGirl.create(:team)
+      team = FactoryGirl.create(:team, leader: @user)
       expect do
         delete :destroy, { id: team.to_param }, valid_session
       end.to change(Team, :count).by(-1)
     end
 
     it 'redirects to the teams list' do
-      team = FactoryGirl.create(:team)
+      team = FactoryGirl.create(:team, leader: @user)
       delete :destroy, { id: team.to_param }, valid_session
       expect(response).to redirect_to(teams_url)
     end
