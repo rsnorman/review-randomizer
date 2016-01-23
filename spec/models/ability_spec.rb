@@ -7,7 +7,9 @@ RSpec.describe Ability do
         ability.permissions[:can].fetch(action, []).include?(subject.to_s)
 
       if has_rule && @attributes
-        ability.attributes_for(action, subject) == @attributes
+        ability.send(:rules).detect do |r|
+          r.actions.include?(action) && r.subjects.include?(subject)
+        end.conditions == @attributes
       else
         has_rule
       end
@@ -84,6 +86,32 @@ RSpec.describe Ability do
           expect(Ability.new(user))
             .to authorize(:destroy, Team)
             .with_attributes(leader_id: user.id)
+        end
+      end
+
+      describe 'TeamMembership permissions' do
+        it 'allows create if team leader' do
+          expect(Ability.new(user))
+            .to authorize(:create, TeamMembership)
+            .with_attributes(team: {leader_id: user.id})
+        end
+
+        it 'allows read for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:read, TeamMembership)
+            .with_attributes(team: {leader_id: user.id})
+        end
+
+        it 'allows update for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:update, TeamMembership)
+            .with_attributes(team: {leader_id: user.id})
+        end
+
+        it 'allows destroy for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:destroy, TeamMembership)
+            .with_attributes(team: {leader_id: user.id})
         end
       end
     end

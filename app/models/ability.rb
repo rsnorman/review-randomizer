@@ -11,6 +11,9 @@ class Ability
     else
       add_owner_rules(Repo, :owner)
       add_owner_rules(Team, :leader)
+      add_owner_rules(
+        TeamMembership, team: {leader_id: user.id}, scope_create: true
+      )
     end
   end
 
@@ -18,10 +21,16 @@ class Ability
 
   attr_accessor :user
 
-  def add_owner_rules(subject, owner_type)
-    can :create,  subject
-    can :read,    subject, "#{owner_type}_id".to_sym => user.id
-    can :update,  subject, "#{owner_type}_id".to_sym => user.id
-    can :destroy, subject, "#{owner_type}_id".to_sym => user.id
+  def add_owner_rules(subject, ownership_options)
+    if ownership_options.is_a?(Symbol)
+      ownership_options = {"#{ownership_options}_id".to_sym => user.id}
+    else
+      scope_create = ownership_options.delete(:scope_create)
+    end
+
+    can :create,  subject, scope_create ? ownership_options : {}
+    can :read,    subject, ownership_options
+    can :update,  subject, ownership_options
+    can :destroy, subject, ownership_options
   end
 end
