@@ -7,9 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <header>
+    <%= link_to 'Review Randomizer', root_path %>
+    <br />
+    <% if user_signed_in? %>
+      Hey! <%= current_user.name || current_user.email %>
+      <%= link_to 'Profile', edit_user_registration_path %>
+      <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Log in', user_session_path %>
+    <% end %>
+  </header>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
-
 <%= yield %>
 
 </body>
