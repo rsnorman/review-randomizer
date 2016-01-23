@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe ReposController, type: :controller do
   login_user
 
-  # This should return the minimal set of attributes required to create a valid
-  # Repo. As you add validations to Repo, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) do
     Hash[
       company: 'All Things Serve The Code',
