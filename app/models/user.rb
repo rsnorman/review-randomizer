@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   ADMIN_ROLE = 'Admin'.freeze
 
   has_many :repos, dependent: :destroy
+  has_many :teams, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

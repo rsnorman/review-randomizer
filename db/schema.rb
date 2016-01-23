@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122035848) do
+ActiveRecord::Schema.define(version: 20160123053249) do
 
   create_table "repos", force: :cascade do |t|
     t.string   "company"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 20160122035848) do
   end
 
   add_index "repos", ["owner_id"], name: "index_repos_on_owner_id"
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "leader_id"
+  end
+
+  add_index "teams", ["leader_id"], name: "index_teams_on_leader_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

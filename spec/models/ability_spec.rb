@@ -38,6 +38,7 @@ RSpec.describe Ability do
 
     context 'with non-admin user' do
       let(:role) { 'User' }
+
       describe 'Repo permissions' do
         it 'allows create' do
           expect(Ability.new(user)).to authorize(:create, Repo)
@@ -59,6 +60,30 @@ RSpec.describe Ability do
           expect(Ability.new(user))
             .to authorize(:destroy, Repo)
             .with_attributes(owner_id: user.id)
+        end
+      end
+
+      describe 'Team permissions' do
+        it 'allows create' do
+          expect(Ability.new(user)).to authorize(:create, Team)
+        end
+
+        it 'allows read for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:read, Team)
+            .with_attributes(leader_id: user.id)
+        end
+
+        it 'allows update for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:update, Team)
+            .with_attributes(leader_id: user.id)
+        end
+
+        it 'allows destroy for team leader' do
+          expect(Ability.new(user))
+            .to authorize(:destroy, Team)
+            .with_attributes(leader_id: user.id)
         end
       end
     end
