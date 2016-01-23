@@ -10,6 +10,6 @@ class ApplicationController < ActionController::Base
 
   def notice_message
     "#{params[:controller].singularize.humanize.titleize} " \
-    "was successfully #{params[:action]}d"
+    "was successfully #{params[:action].chomp('e')}ed"
   end
 end
