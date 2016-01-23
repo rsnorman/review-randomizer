@@ -1,3 +1,4 @@
+# Authorizations class for the whole review randomizer
 class Ability
   include CanCan::Ability
 

@@ -1,3 +1,4 @@
+# Models repositories including validations
 class Repo < ActiveRecord::Base
   validates :name,     presence: true, uniqueness: { scope: :company }
   validates :company,  presence: true, uniqueness: true

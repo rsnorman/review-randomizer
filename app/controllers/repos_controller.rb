@@ -1,3 +1,4 @@
+# Controllers for repositories that will have PRs opened against it
 class ReposController < ApplicationController
   before_action :set_repo, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
@@ -29,7 +30,7 @@ class ReposController < ApplicationController
 
     respond_to do |format|
       if @repo.save
-        format.html { redirect_to @repo, notice: 'Repo was successfully created.' }
+        format.html { redirect_to @repo, notice: notice_message }
         format.json { render :show, status: :created, location: @repo }
       else
         format.html { render :new }
@@ -43,7 +44,7 @@ class ReposController < ApplicationController
   def update
     respond_to do |format|
       if @repo.update(repo_params)
-        format.html { redirect_to @repo, notice: 'Repo was successfully updated.' }
+        format.html { redirect_to @repo, notice: notice_message }
         format.json { render :show, status: :ok, location: @repo }
       else
         format.html { render :edit }
@@ -57,7 +58,9 @@ class ReposController < ApplicationController
   def destroy
     @repo.destroy
     respond_to do |format|
-      format.html { redirect_to repos_url, notice: 'Repo was successfully destroyed.' }
+      format.html do
+        redirect_to repos_url, notice: notice_message
+      end
       format.json { head :no_content }
     end
   end
@@ -69,7 +72,8 @@ class ReposController < ApplicationController
     @repo = Repo.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
   def repo_params
     params.require(:repo).permit(
       :company, :organization, :name, :description, :url

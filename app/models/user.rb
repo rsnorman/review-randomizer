@@ -1,3 +1,4 @@
+# User model including authentication junk
 class User < ActiveRecord::Base
   ADMIN_ROLE = 'Admin'.freeze
 

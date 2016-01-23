@@ -115,13 +115,17 @@ RSpec.describe ReposController, type: :controller do
 
       it 'assigns the requested repo as @repo' do
         repo = Repo.create! valid_attributes
-        put :update, { id: repo.to_param, repo: valid_attributes }, valid_session
+        put(
+          :update, { id: repo.to_param, repo: valid_attributes }, valid_session
+        )
         expect(assigns(:repo)).to eq(repo)
       end
 
       it 'redirects to the repo' do
         repo = Repo.create! valid_attributes
-        put :update, { id: repo.to_param, repo: valid_attributes }, valid_session
+        put(
+          :update, { id: repo.to_param, repo: valid_attributes }, valid_session
+        )
         expect(response).to redirect_to(repo)
       end
     end
@@ -129,13 +133,22 @@ RSpec.describe ReposController, type: :controller do
     context 'with invalid params' do
       it 'assigns the repo as @repo' do
         repo = Repo.create! valid_attributes
-        put :update, { id: repo.to_param, repo: invalid_attributes }, valid_session
+        put(
+          :update,
+          { id: repo.to_param, repo: invalid_attributes },
+          valid_session
+        )
         expect(assigns(:repo)).to eq(repo)
       end
 
       it "re-renders the 'edit' template" do
         repo = Repo.create! valid_attributes
-        put :update, { id: repo.to_param, repo: invalid_attributes }, valid_session
+        put(
+          :update,
+          { id: repo.to_param, repo: invalid_attributes },
+          valid_session
+        )
+
         expect(response).to render_template('edit')
       end
     end
