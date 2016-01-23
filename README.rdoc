@@ -1,2 +1,2 @@
 == Review Randomizer
-https://snap-ci.com/rsnorman/review-randomizer/branch/master/build_image
+{<img src='https://snap-ci.com/rsnorman/review-randomizer/branch/master/build_image' alt='Build Status' />}[https://snap-ci.com/rsnorman/review-randomizer/branch/master]
