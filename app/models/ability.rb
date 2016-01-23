@@ -4,6 +4,7 @@ class Ability
 
   def initialize(user)
     return unless user
+    @user = user
 
     if user.admin?
       can :manage, :all
@@ -14,6 +15,8 @@ class Ability
   end
 
   private
+
+  attr_accessor :user
 
   def create_repo_rules
     can :create,  Repo
