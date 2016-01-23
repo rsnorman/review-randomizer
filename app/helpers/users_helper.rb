@@ -1,3 +1,4 @@
+# View helper for user junk
 module UsersHelper
   def password_hint
     if @minimum_password_length
