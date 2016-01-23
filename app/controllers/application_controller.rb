@@ -17,9 +17,4 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
     devise_parameter_sanitizer.for(:account_update) << :handle
   end
-
-  def notice_message
-    "#{params[:controller].singularize.humanize.titleize} " \
-    "was successfully #{params[:action].chomp('e')}ed"
-  end
 end
