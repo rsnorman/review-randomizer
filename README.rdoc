@@ -1,2 +1,3 @@
 == Review Randomizer
 {<img src='https://snap-ci.com/rsnorman/review-randomizer/branch/master/build_image' alt='Build Status' />}[https://snap-ci.com/rsnorman/review-randomizer/branch/master]
+{<img src="https://codeclimate.com/github/rsnorman/review-randomizer/badges/gpa.svg" />}[https://codeclimate.com/github/rsnorman/review-randomizer]
