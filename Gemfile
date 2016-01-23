@@ -31,6 +31,9 @@ gem 'cancancan', '~> 1.10'
 # For making sure my codez isn't junk
 gem 'rubocop'
 
+# For nicer forms and junk
+gem 'simple_form'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

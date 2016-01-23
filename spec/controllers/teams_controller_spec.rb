@@ -3,8 +3,11 @@ require 'rails_helper'
 RSpec.describe TeamsController, type: :controller do
   login_user
 
+  let(:repo) { FactoryGirl.create(:repo) }
   let(:valid_attributes) do
-    FactoryGirl.attributes_for(:team, leader: @user)
+    FactoryGirl.attributes_for(:team, leader: @user).tap do |attrs|
+      attrs[:repo_ids] = [repo.id]
+    end
   end
 
   let(:invalid_attributes) do
@@ -60,6 +63,11 @@ RSpec.describe TeamsController, type: :controller do
         expect(assigns(:team)).to be_persisted
       end
 
+      it 'assigns a repo to the team' do
+        post :create, { team: valid_attributes }, valid_session
+        expect(assigns(:team).repos).to include(repo)
+      end
+
       it 'redirects to the created team' do
         post :create, { team: valid_attributes }, valid_session
         expect(response).to redirect_to(Team.last)
@@ -81,9 +89,11 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
+      let(:new_repo) { FactoryGirl.create(:repo) }
       let(:new_attributes) do
         Hash[
-          name: 'Centralmotrons'
+          name: 'Centralmotrons',
+          repo_ids: [repo, new_repo]
         ]
       end
 
@@ -92,6 +102,13 @@ RSpec.describe TeamsController, type: :controller do
         put :update, { id: team.to_param, team: new_attributes }, valid_session
         team.reload
         expect(team.name).to eq('Centralmotrons')
+      end
+
+      it 'assigns the new repo' do
+        team = FactoryGirl.create(:team, leader: @user)
+        put :update, { id: team.to_param, team: new_attributes }, valid_session
+        team.reload
+        expect(team.repos).to include(repo)
       end
 
       it 'assigns the requested team as @team' do

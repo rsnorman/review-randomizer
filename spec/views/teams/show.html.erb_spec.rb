@@ -9,5 +9,6 @@ RSpec.describe 'teams/show', type: :view do
     render
     expect(rendered).to match(/Name/)
     expect(rendered).to match(/Leader/)
+    expect(rendered).to match(/Repos/)
   end
 end

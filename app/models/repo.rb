@@ -6,4 +6,5 @@ class Repo < ActiveRecord::Base
   validates :owner,    presence: true
 
   belongs_to :owner, class_name: User
+  has_and_belongs_to_many :teams # rubocop:disable Rails/HasAndBelongsToMany
 end

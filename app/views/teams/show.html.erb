@@ -10,5 +10,14 @@
   <%= @team.leader.name %>
 </p>
 
+<p>
+  <strong>Repos:</strong>
+  <ul>
+    <% @team.repos.each do |repo| %>
+      <li><%= repo.name %></li>
+    <% end %>
+  </ul>
+</p>
+
 <%= link_to 'Edit', edit_team_path(@team) %> |
 <%= link_to 'Back', teams_path %>
