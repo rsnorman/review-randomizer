@@ -1,3 +1,4 @@
+# Team full of users assigned to repos
 class Team < ActiveRecord::Base
   belongs_to :leader, class_name: User
 
