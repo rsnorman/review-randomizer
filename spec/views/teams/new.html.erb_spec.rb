@@ -12,6 +12,7 @@ RSpec.describe 'teams/new', type: :view do
 
     assert_select 'form[action=?][method=?]', teams_path, 'post' do
       assert_select 'input#team_name[name=?]', 'team[name]'
+      assert_select 'select#team_repo_ids[name=?]', 'team[repo_ids][]'
     end
   end
 end
