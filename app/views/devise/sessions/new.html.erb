@@ -1,4 +1,6 @@
-<h2>Log in</h2>
+<% content_for(:title) do %>
+  Log in
+<% end %>
 
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <%= f.input :email, autofocus: true, as: :email %>
