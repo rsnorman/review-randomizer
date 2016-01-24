@@ -1,8 +1,10 @@
-<p id="notice"><%= notice %></p>
+<% content_for(:title) do %>
+  Pull Request #<%= @pull_request.number %>
+<% end %>
 
 <p>
   <strong>Repo:</strong>
-  <%= @pull_request.repo %>
+  <%= @pull_request.repo.name %>
 </p>
 
 <p>
@@ -12,8 +14,8 @@
 
 <p>
   <strong>Number:</strong>
-  <%= @pull_request.number %>
+  #<%= @pull_request.number %>
 </p>
 
-<%= link_to 'Edit', edit_pull_request_path(@pull_request) %> |
-<%= link_to 'Back', pull_requests_path %>
+<%= link_to 'Edit', edit_repo_pull_request_path(@repo, @pull_request) %> |
+<%= link_to 'Back', repo_pull_requests_path(@repo) %>

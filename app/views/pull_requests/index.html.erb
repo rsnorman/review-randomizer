@@ -1,6 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Pull Requests</h1>
+<% content_for(:title) do %>
+  Listing Pull Requests
+<% end %>
 
 <table>
   <thead>
@@ -15,12 +15,12 @@
   <tbody>
     <% @pull_requests.each do |pull_request| %>
       <tr>
-        <td><%= pull_request.repo %></td>
+        <td><%= pull_request.repo.name %></td>
         <td><%= pull_request.title %></td>
-        <td><%= pull_request.number %></td>
-        <td><%= link_to 'Show', pull_request %></td>
-        <td><%= link_to 'Edit', edit_pull_request_path(pull_request) %></td>
-        <td><%= link_to 'Destroy', pull_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>#<%= pull_request.number %></td>
+        <td><%= link_to 'Show', repo_pull_request_path(@repo, pull_request)%></td>
+        <td><%= link_to 'Edit', edit_repo_pull_request_path(@repo, pull_request) %></td>
+        <td><%= link_to 'Destroy', repo_pull_request_path(@repo, pull_request), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Pull request', new_pull_request_path %>
+<%= link_to 'New Pull request', new_repo_pull_request_path(@repo) %>
