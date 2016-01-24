@@ -4,5 +4,4 @@ FactoryGirl.define do
     title { Faker::Hacker.say_something_smart }
     sequence(:number) { |n| n }
   end
-
 end

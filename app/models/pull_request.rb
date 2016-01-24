@@ -1,3 +1,4 @@
+# Models pull requests in a repo
 class PullRequest < ActiveRecord::Base
   belongs_to :repo
 

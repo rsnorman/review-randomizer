@@ -1,3 +1,4 @@
+# Controller for pull requests in a repo
 class PullRequestsController < ApplicationController
   respond_to :html, :json
 
