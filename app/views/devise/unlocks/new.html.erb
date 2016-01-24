@@ -4,8 +4,7 @@
   <%= devise_error_messages! %>
 
   <div class="form-inputs">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.input :email, autofocus: true, as: :email %>
   </div>
 
   <div class="form-actions">
