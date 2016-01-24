@@ -37,12 +37,21 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
+    <% if notice %>
+      <div class="row">
+        <div class="large-12 columns">
+          <p class="callout success"><%= notice %></p>
+        </div>
       </div>
-    </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="row">
+        <div class="large-12 columns">
+          <p class="callout alert"><%= alert %></p>
+        </div>
+      </div>
+    <% end %>
 
     <div class="row">
       <div class="large-12 columns">
