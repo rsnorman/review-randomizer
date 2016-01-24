@@ -3,27 +3,31 @@
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <%= f.input :name, autofocus: true %>
-  <%= f.input :email, as: :email %>
-  <%= f.input :handle %>
+  <div class="form-inputs">
+    <%= f.input :name, autofocus: true %>
+    <%= f.input :email, as: :email %>
+    <%= f.input :handle %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
 
-  <div class="input password optional user_password_confirmation">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: "off" %>
-    <span>(leave blank if you don't want to change it)</span>
+    <div class="input password optional user_password_confirmation">
+      <%= f.label :password %>
+      <%= f.password_field :password, autocomplete: "off" %>
+      <span>(leave blank if you don't want to change it)</span>
+    </div>
+    <%= f.input :password_confirmation, autocomplete: "off", as: :password %>
+    <%= f.input :current_password, autocomplete: "off", as: :password, hint: '(we need your current password to confirm your changes)' %>
   </div>
-  <%= f.input :password_confirmation, autocomplete: "off", as: :password %>
-  <%= f.input :current_password, autocomplete: "off", as: :password, hint: '(we need your current password to confirm your changes)' %>
 
-  <%= f.submit "Update" %>
+  <div class="form-actions">
+    <%= f.button :submit, "Update" %>
+  </div>
 <% end %>
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button alert' %></p>
 
 <%= link_to "Back", :back %>

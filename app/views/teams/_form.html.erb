@@ -1,8 +1,12 @@
 <%= simple_form_for(@team) do |f| %>
   <%= f.error_notification %>
 
-  <%= f.input :name %>
-  <%= f.association :repos %>
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.association :repos %>
+  </div>
 
-  <%= f.button :submit %>
+  <div class="form-inputs">
+    <%= f.button :submit %>
+  </div>
 <% end %>
