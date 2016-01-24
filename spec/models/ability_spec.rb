@@ -114,6 +114,32 @@ RSpec.describe Ability do
             .with_attributes(team: { leader_id: user.id })
         end
       end
+
+      describe 'PullRequest permissions' do
+        it 'allows create if repo owner' do
+          expect(Ability.new(user))
+            .to authorize(:create, PullRequest)
+            .with_attributes(repo: { owner_id: user.id })
+        end
+
+        it 'allows read for repo owner' do
+          expect(Ability.new(user))
+            .to authorize(:read, PullRequest)
+            .with_attributes(repo: { owner_id: user.id })
+        end
+
+        it 'allows update for repo owner' do
+          expect(Ability.new(user))
+            .to authorize(:update, PullRequest)
+            .with_attributes(repo: { owner_id: user.id })
+        end
+
+        it 'allows destroy for repo owner' do
+          expect(Ability.new(user))
+            .to authorize(:destroy, PullRequest)
+            .with_attributes(repo: { owner_id: user.id })
+        end
+      end
     end
   end
 end
