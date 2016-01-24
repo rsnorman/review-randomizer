@@ -26,8 +26,6 @@ class ApplicationController < ActionController::Base
       set_flash_message(args.first, params[:action])
     when 'destroy'
       set_flash_message(args.first, params[:action])
-    else
-      # Ignore other actions
     end
 
     super
