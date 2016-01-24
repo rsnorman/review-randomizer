@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repo:</strong>
+  <%= @pull_request.repo %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @pull_request.title %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @pull_request.number %>
+</p>
+
+<%= link_to 'Edit', edit_pull_request_path(@pull_request) %> |
+<%= link_to 'Back', pull_requests_path %>
