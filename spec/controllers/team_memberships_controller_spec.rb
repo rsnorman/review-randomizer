@@ -112,9 +112,10 @@ RSpec.describe TeamMembershipsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
+      let(:user) { FactoryGirl.create(:user) }
       let(:new_attributes) do
         {
-          handle: 'xx_superman_xx'
+          user_id: user.to_param
         }
       end
 
@@ -129,7 +130,7 @@ RSpec.describe TeamMembershipsController, type: :controller do
           valid_session
         )
         team_membership.reload
-        expect(team_membership.handle).to eq 'xx_superman_xx'
+        expect(team_membership.user).to eq user
       end
 
       it 'assigns the requested team_membership as @team_membership' do
