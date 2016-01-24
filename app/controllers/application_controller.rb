@@ -17,4 +17,29 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
     devise_parameter_sanitizer.for(:account_update) << :handle
   end
+
+  def respond_with(*args)
+    case params[:action]
+    when 'create'
+      set_flash_message(args.first, params[:action])
+    when 'update'
+      set_flash_message(args.first, params[:action])
+    when 'destroy'
+      set_flash_message(args.first, params[:action])
+    else
+      # Ignore other actions
+    end
+
+    super
+  end
+
+  def set_flash_message(subject, action)
+    if subject.errors.none?
+      flash[:notice] =
+        "#{subject.class.to_s.humanize} #{action.chomp('e')}ed successfully."
+    else
+      flash[:alert] =
+        "#{subject.class.to_s.humanize} was not #{action.chomp('e')}ed."
+    end
+  end
 end

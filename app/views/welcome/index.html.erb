@@ -1,4 +1,7 @@
-<h1>Welcome!</h1>
+<% content_for(:title) do %>
+  Welcome!
+<% end %>
+
 <% if user_signed_in? %>
   <ul>
     <li><%= link_to 'Repos', repos_path %></li>

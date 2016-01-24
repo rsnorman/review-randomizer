@@ -1,4 +1,6 @@
-<h2>Log in</h2>
+<% content_for(:title) do %>
+  Log in
+<% end %>
 
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <%= f.input :email, autofocus: true, as: :email %>
@@ -8,7 +10,7 @@
     <%= f.input :remember_me, as: :boolean %>
   <% end -%>
 
-  <%= f.submit "Log in" %>
+  <%= f.button :submit, "Log in" %>
 <% end %>
 
 <%= render "devise/shared/links" %>
