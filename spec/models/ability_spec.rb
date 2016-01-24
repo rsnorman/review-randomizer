@@ -93,25 +93,25 @@ RSpec.describe Ability do
         it 'allows create if team leader' do
           expect(Ability.new(user))
             .to authorize(:create, TeamMembership)
-            .with_attributes(team: {leader_id: user.id})
+            .with_attributes(team: { leader_id: user.id })
         end
 
         it 'allows read for team leader' do
           expect(Ability.new(user))
             .to authorize(:read, TeamMembership)
-            .with_attributes(team: {leader_id: user.id})
+            .with_attributes(team: { leader_id: user.id })
         end
 
         it 'allows update for team leader' do
           expect(Ability.new(user))
             .to authorize(:update, TeamMembership)
-            .with_attributes(team: {leader_id: user.id})
+            .with_attributes(team: { leader_id: user.id })
         end
 
         it 'allows destroy for team leader' do
           expect(Ability.new(user))
             .to authorize(:destroy, TeamMembership)
-            .with_attributes(team: {leader_id: user.id})
+            .with_attributes(team: { leader_id: user.id })
         end
       end
     end

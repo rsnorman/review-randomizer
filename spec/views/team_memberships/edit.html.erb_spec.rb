@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "team_memberships/edit", type: :view do
+RSpec.describe 'team_memberships/edit', type: :view do
   let(:team) { FactoryGirl.create(:team) }
   before(:each) do
     @team = assign(:team, team)
@@ -8,13 +8,13 @@ RSpec.describe "team_memberships/edit", type: :view do
       assign(:team_membership, FactoryGirl.create(:team_membership, team: team))
   end
 
-  it "renders the edit team_membership form" do
+  it 'renders the edit team_membership form' do
     render
 
     assert_select(
-      "form[action=?][method=?]",
+      'form[action=?][method=?]',
       team_team_membership_path(@team, @team_membership),
-      "post") do
+      'post') do
       assert_select(
         'input#team_membership_handle[name=?]', 'team_membership[handle]'
       )
