@@ -1,10 +1,8 @@
-<%= simple_form_for(@team_membership) do |f| %>
+<%= simple_form_for([@team, @team_membership]) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-  </div>
+  <%= f.input :handle, autofocus: true %>
+  <%= f.association :user %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+  <%= f.button :submit %>
 <% end %>

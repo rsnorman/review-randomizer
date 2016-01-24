@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Member Name</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,9 +13,10 @@
   <tbody>
     <% @team_memberships.each do |team_membership| %>
       <tr>
-        <td><%= link_to 'Show', team_membership %></td>
-        <td><%= link_to 'Edit', edit_team_membership_path(team_membership) %></td>
-        <td><%= link_to 'Destroy', team_membership, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= member_name(team_membership) %></td>
+        <td><%= link_to 'Show', team_team_membership_path(@team, team_membership) %></td>
+        <td><%= link_to 'Edit', edit_team_team_membership_path(@team, team_membership) %></td>
+        <td><%= link_to 'Destroy', team_team_membership_path(@team, team_membership), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +24,5 @@
 
 <br>
 
-<%= link_to 'New Team membership', new_team_membership_path %>
+<%= link_to 'Back', team_path(@team) %>
+<%= link_to 'New Team membership', new_team_team_membership_path(@team) %>

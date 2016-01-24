@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @team_membership %> |
-<%= link_to 'Back', team_memberships_path %>
+<%= link_to 'Show', [@team, @team_membership] %> |
+<%= link_to 'Back', team_team_memberships_path(@team) %>

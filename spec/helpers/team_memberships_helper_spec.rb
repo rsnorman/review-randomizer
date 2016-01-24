@@ -1,15 +1,24 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the TeamMembershipsHelper. For example:
-#
-# describe TeamMembershipsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe TeamMembershipsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#member_name' do
+    context 'without user' do
+      let(:membership) do
+        FactoryGirl.build(:team_membership, handle: 'ryannorman')
+      end
+
+      it 'returns membership handle' do
+        expect(helper.member_name(membership)).to eq '@ryannorman'
+      end
+    end
+
+    context 'with user' do
+      let(:user) { FactoryGirl.build(:user, name: 'Ryan Norman') }
+      let(:membership) { FactoryGirl.build(:team_membership, user: user) }
+
+      it 'returns user name' do
+        expect(helper.member_name(membership)).to eq 'Ryan Norman'
+      end
+    end
+  end
 end
