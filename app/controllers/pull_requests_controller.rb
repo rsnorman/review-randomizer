@@ -6,17 +6,17 @@ class PullRequestsController < ApplicationController
 
   def create
     @pull_request.save
-    respond_with @pull_request
+    respond_with @repo, @pull_request
   end
 
   def update
     @pull_request.update(pull_request_params)
-    respond_with @pull_request
+    respond_with @repo, @pull_request
   end
 
   def destroy
     @pull_request.destroy
-    respond_with @pull_request
+    respond_with @repo, @pull_request
   end
 
   private

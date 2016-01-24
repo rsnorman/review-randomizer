@@ -21,11 +21,11 @@ class ApplicationController < ActionController::Base
   def respond_with(*args)
     case params[:action]
     when 'create'
-      set_flash_message(args.first, params[:action])
+      set_flash_message(args.last, params[:action])
     when 'update'
-      set_flash_message(args.first, params[:action])
+      set_flash_message(args.last, params[:action])
     when 'destroy'
-      set_flash_message(args.first, params[:action])
+      set_flash_message(args.last, params[:action])
     end
 
     super

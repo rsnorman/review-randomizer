@@ -5,7 +5,8 @@ class Ability
   RULES = [
     { subject: Repo, ownership: :owner_id },
     { subject: Team, ownership: :leader_id },
-    { subject: TeamMembership, ownership: { team: :leader_id } }
+    { subject: TeamMembership, ownership: { team: :leader_id } },
+    { subject: PullRequest, ownership: { repo: :owner_id } }
   ].map(&:freeze).freeze
 
   def initialize(user)
