@@ -2,6 +2,12 @@
 class Ability
   include CanCan::Ability
 
+  RULES = [
+    { subject: Repo, ownership: :owner_id },
+    { subject: Team, ownership: :leader_id },
+    { subject: TeamMembership, ownership: { team: :leader_id } }
+  ].map(&:freeze).freeze
+
   def initialize(user)
     return unless user
     @user = user
@@ -9,8 +15,9 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      add_owner_rules(Repo, :owner)
-      add_owner_rules(Team, :leader)
+      RULES.each do |rule|
+        add_owner_rules(rule[:subject], rule[:ownership])
+      end
     end
   end
 
@@ -18,10 +25,25 @@ class Ability
 
   attr_accessor :user
 
-  def add_owner_rules(subject, owner_type)
-    can :create,  subject
-    can :read,    subject, "#{owner_type}_id".to_sym => user.id
-    can :update,  subject, "#{owner_type}_id".to_sym => user.id
-    can :destroy, subject, "#{owner_type}_id".to_sym => user.id
+  def add_owner_rules(subject, ownership)
+    if ownership.is_a?(Symbol)
+      ownership_options = { ownership => user.id }
+    else
+      ownership_options = create_nested_ownership_options(ownership)
+      scope_create = true
+    end
+
+    can :create,  subject, scope_create ? ownership_options : {}
+    can :read,    subject, ownership_options
+    can :update,  subject, ownership_options
+    can :destroy, subject, ownership_options
+  end
+
+  def create_nested_ownership_options(ownership)
+    {
+      ownership.keys.first => {
+        ownership.values.first => user.id
+      }
+    }
   end
 end

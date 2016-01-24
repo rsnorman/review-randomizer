@@ -5,4 +5,6 @@ class Team < ActiveRecord::Base
 
   belongs_to :leader, class_name: User
   has_and_belongs_to_many :repos # rubocop:disable Rails/HasAndBelongsToMany
+  has_many :team_memberships
+  has_many :users, through: :team_memberships
 end

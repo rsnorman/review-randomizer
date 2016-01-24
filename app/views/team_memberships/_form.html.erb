@@ -1,0 +1,8 @@
+<%= simple_form_for([@team, @team_membership]) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :handle, autofocus: true %>
+  <%= f.association :user %>
+
+  <%= f.button :submit %>
+<% end %>

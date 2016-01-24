@@ -6,8 +6,10 @@ class User < ActiveRecord::Base
   validates :email,     presence: true
   validates :password,  presence: true
 
-  has_many :repos, dependent: :destroy
-  has_many :teams, dependent: :destroy
+  has_many :repos,                             dependent: :destroy
+  has_many :teams,                             dependent: :destroy
+  has_many :team_memberships,                  dependent: :destroy
+  has_many :teams, through: :team_memberships, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

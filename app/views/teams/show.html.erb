@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @team.name %>
@@ -19,5 +17,15 @@
   </ul>
 </p>
 
+<p>
+  <strong>Members:</strong>
+  <ul>
+    <% @team.team_memberships.each do |team_membership| %>
+      <li><%= member_name(team_membership) %></li>
+    <% end %>
+  </ul>
+</p>
+
+<%= link_to 'Manage Memberships', team_team_memberships_path(@team) %> |
 <%= link_to 'Edit', edit_team_path(@team) %> |
 <%= link_to 'Back', teams_path %>
