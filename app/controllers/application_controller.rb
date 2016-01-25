@@ -34,10 +34,12 @@ class ApplicationController < ActionController::Base
   def set_flash_message(subject, action)
     if subject.errors.none?
       flash[:notice] =
-        "#{subject.class.to_s.humanize} #{action.chomp('e')}ed successfully."
+        "#{subject.class.to_s.underscore.humanize} " \
+        "#{action.chomp('e')}ed successfully."
     else
       flash[:alert] =
-        "#{subject.class.to_s.humanize} was not #{action.chomp('e')}ed."
+        "#{subject.class.to_s.underscore.humanize} "\
+        "was not #{action.chomp('e')}ed."
     end
   end
 end

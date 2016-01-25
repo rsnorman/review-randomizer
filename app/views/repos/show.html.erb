@@ -32,5 +32,15 @@
   <%= @repo.owner.name %>
 </p>
 
+<p>
+  <strong>Pull Requests:</strong>
+  <ul>
+    <% @repo.pull_requests.each do |pull_request| %>
+      <li><%= pull_request.title %></li>
+    <% end %>
+  </ul>
+</p>
+
+<%= link_to 'Manage Pull Requests', repo_pull_requests_path(@repo) %> |
 <%= link_to 'Edit', edit_repo_path(@repo) %> |
 <%= link_to 'Back', repos_path %>
