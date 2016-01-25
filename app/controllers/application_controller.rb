@@ -1,5 +1,7 @@
 # Application controller junk
 class ApplicationController < ActionController::Base
+  include RespondWithFlash
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -16,30 +18,5 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:account_update) << :name
     devise_parameter_sanitizer.for(:account_update) << :handle
-  end
-
-  def respond_with(*args)
-    case params[:action]
-    when 'create'
-      set_flash_message(args.last, params[:action])
-    when 'update'
-      set_flash_message(args.last, params[:action])
-    when 'destroy'
-      set_flash_message(args.last, params[:action])
-    end
-
-    super
-  end
-
-  def set_flash_message(subject, action)
-    if subject.errors.none?
-      flash[:notice] =
-        "#{subject.class.to_s.underscore.humanize} " \
-        "#{action.chomp('e')}ed successfully."
-    else
-      flash[:alert] =
-        "#{subject.class.to_s.underscore.humanize} "\
-        "was not #{action.chomp('e')}ed."
-    end
   end
 end
