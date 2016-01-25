@@ -7,11 +7,12 @@ RSpec.describe 'repos/show', type: :view do
 
   it 'renders attributes in <p>' do
     render
-    expect(rendered).to match(/Company/)
-    expect(rendered).to match(/Organization/)
-    expect(rendered).to match(/Name/)
-    expect(rendered).to match(/Description/)
-    expect(rendered).to match(/Url/)
-    expect(rendered).to match(/Owner/)
+    expect(rendered).to match(Regexp.new(CGI.escape_html(@repo.company)))
+    expect(rendered).to match(Regexp.new(CGI.escape_html(@repo.organization)))
+    expect(rendered).to match(Regexp.new(CGI.escape_html(@repo.name)))
+    expect(rendered).to match(Regexp.new(CGI.escape_html(@repo.description)))
+    expect(rendered).to match(Regexp.new(@repo.url))
+    expect(rendered).to match(Regexp.new(@repo.owner.name))
+    expect(rendered).to match(/Pull Requests/)
   end
 end

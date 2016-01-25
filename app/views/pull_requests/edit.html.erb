@@ -1,0 +1,8 @@
+<% content_for(:title) do %>
+  Editing Pull Request
+<% end %>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', repo_pull_request_path(@repo, @pull_request) %> |
+<%= link_to 'Back', repo_pull_requests_path(@repo) %>

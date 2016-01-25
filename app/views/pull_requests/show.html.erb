@@ -1,0 +1,21 @@
+<% content_for(:title) do %>
+  Pull Request #<%= @pull_request.number %>
+<% end %>
+
+<p>
+  <strong>Repo:</strong>
+  <%= @pull_request.repo.name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @pull_request.title %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  #<%= @pull_request.number %>
+</p>
+
+<%= link_to 'Edit', edit_repo_pull_request_path(@repo, @pull_request) %> |
+<%= link_to 'Back', repo_pull_requests_path(@repo) %>

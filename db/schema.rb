@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160123194758) do
+ActiveRecord::Schema.define(version: 20160124224153) do
+
+  create_table "pull_requests", force: :cascade do |t|
+    t.integer  "repo_id"
+    t.string   "title"
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pull_requests", ["repo_id"], name: "index_pull_requests_on_repo_id"
 
   create_table "repos", force: :cascade do |t|
     t.string   "company"
