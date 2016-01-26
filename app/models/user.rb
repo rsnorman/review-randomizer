@@ -9,6 +9,11 @@ class User < ActiveRecord::Base
   has_many :teams,                             dependent: :destroy
   has_many :team_memberships,                  dependent: :destroy
   has_many :teams, through: :team_memberships, dependent: :destroy
+  has_many(
+    :review_assignments,
+    through: :team_memberships,
+    class_name: 'ReviewAssignment'
+  )
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

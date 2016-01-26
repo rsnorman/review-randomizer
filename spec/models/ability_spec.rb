@@ -140,6 +140,31 @@ RSpec.describe Ability do
             .with_attributes(repo: { owner_id: user.id })
         end
       end
+
+      describe 'ReviewAssignment permissions' do
+        it 'allows create if pull request author' do
+          expect(Ability.new(user))
+            .to authorize(:create, ReviewAssignment)
+            .with_attributes(pull_request: { author_id: user.id })
+        end
+
+        it 'allows read for pull request author' do
+          expect(Ability.new(user))
+            .to authorize(:read, ReviewAssignment)
+        end
+
+        it 'allows update for pull request author' do
+          expect(Ability.new(user))
+            .to authorize(:update, ReviewAssignment)
+            .with_attributes(pull_request: { author_id: user.id })
+        end
+
+        it 'allows destroy for pull request author' do
+          expect(Ability.new(user))
+            .to authorize(:destroy, ReviewAssignment)
+            .with_attributes(pull_request: { author_id: user.id })
+        end
+      end
     end
   end
 end

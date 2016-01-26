@@ -17,5 +17,17 @@
   #<%= @pull_request.number %>
 </p>
 
+<p>
+  <strong>Review Assignments:</strong>
+  <ul>
+    <% @pull_request.review_assignments.each do |review_assignment| %>
+      <li>
+        <%= member_name(review_assignment.team_membership) %>
+      </li>
+    <% end %>
+  </ul>
+</p>
+
+<%= link_to 'Manage Review Assingments', pull_request_review_assignments_path(@repo) %> |
 <%= link_to 'Edit', edit_repo_pull_request_path(@repo, @pull_request) %> |
 <%= link_to 'Back', repo_pull_requests_path(@repo) %>
