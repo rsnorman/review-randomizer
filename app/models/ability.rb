@@ -3,10 +3,26 @@ class Ability
   include CanCan::Ability
 
   RULES = [
-    { subject: Repo,             ownership: :owner_id                    },
-    { subject: Team,             ownership: :leader_id                   },
-    { subject: TeamMembership,   ownership: { team:         :leader_id } },
-    { subject: PullRequest,      ownership: { repo:         :owner_id  } }
+    {
+      subject: Repo,
+      ownership: { repo: :owner_id, except: :create }
+    },
+    {
+      subject: Team,
+      ownership: { team: :leader_id, except: :create }
+    },
+    {
+      subject: TeamMembership,
+      ownership: { team: :leader_id }
+    },
+    {
+      subject: PullRequest,
+      ownership: { repo: :owner_id }
+    },
+    {
+      subject: ReviewAssignment,
+      ownership: { pull_request: :author_id, except: :read }
+    }
   ].map(&:freeze).freeze
 
   def initialize(user)
@@ -19,11 +35,6 @@ class Ability
       RULES.each do |rule|
         add_owner_rules(rule[:subject], rule[:ownership])
       end
-
-      can :create,  ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
-      can :read,    ReviewAssignment
-      can :update,  ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
-      can :destroy, ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
     end
   end
 
@@ -32,17 +43,29 @@ class Ability
   attr_accessor :user
 
   def add_owner_rules(subject, ownership)
-    if ownership.is_a?(Symbol)
-      ownership_options = { ownership => user.id }
-    else
-      ownership_options = create_nested_ownership_options(ownership)
-      scope_create = true
-    end
+    skip_ownership_actions = Array(ownership.delete(:except))
 
-    can :create,  subject, scope_create ? ownership_options : {}
-    can :read,    subject, ownership_options
-    can :update,  subject, ownership_options
-    can :destroy, subject, ownership_options
+    ownership_options = create_ownership_options(subject, ownership)
+
+    %i(read create update destroy).map do |action|
+      create_rule(action, subject, ownership_options, skip_ownership_actions)
+    end
+  end
+
+  def create_rule(action, subject, ownership_options, skip_ownership_actions)
+    can(
+      action,
+      subject,
+      skip_ownership_actions.include?(action) ? {} : ownership_options
+    )
+  end
+
+  def create_ownership_options(subject, ownership)
+    if subject.to_s.underscore.to_sym == ownership.keys.first
+      { ownership.values.first => user.id }
+    else
+      create_nested_ownership_options(ownership)
+    end
   end
 
   def create_nested_ownership_options(ownership)
