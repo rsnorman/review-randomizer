@@ -3,5 +3,6 @@ FactoryGirl.define do
     repo
     title { Faker::Hacker.say_something_smart }
     sequence(:number) { |n| n }
+    author factory: :user
   end
 end

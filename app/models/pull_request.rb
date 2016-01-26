@@ -7,5 +7,6 @@ class PullRequest < ActiveRecord::Base
 
   validates :repo,    presence: true
   validates :title,   presence: true
+  validates :author,  presence: true
   validates :number,  presence: true, uniqueness: { scope: :repo_id }
 end

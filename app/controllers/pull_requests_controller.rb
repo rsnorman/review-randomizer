@@ -23,6 +23,10 @@ class PullRequestsController < ApplicationController
   private
 
   def pull_request_params
-    params.require(:pull_request).permit(:repo_id, :title, :number)
+    params
+      .require(:pull_request)
+      .permit(:repo_id, :title, :number).tap do |params|
+        params[:author] = current_user
+      end
   end
 end

@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :team_membership %>
+    <%= f.association :team_membership, label_method: proc { |team_membership| member_name(team_membership) } %>
   </div>
 
   <div class="form-actions">

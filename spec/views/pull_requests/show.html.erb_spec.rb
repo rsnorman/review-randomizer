@@ -14,5 +14,6 @@ RSpec.describe 'pull_requests/show', type: :view do
     expect(rendered).to match(Regexp.new(repo.name))
     expect(rendered).to match(Regexp.new(CGI.escape_html(pull_request.title)))
     expect(rendered).to match(Regexp.new("##{pull_request.number}"))
+    expect(rendered).to match(Regexp.new('Review Assignments'))
   end
 end

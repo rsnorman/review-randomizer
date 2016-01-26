@@ -78,6 +78,15 @@ RSpec.describe PullRequestsController, type: :controller do
         expect(assigns(:pull_request)).to be_persisted
       end
 
+      it 'assigns the current user as the author of the pull request' do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
+          valid_session
+        )
+        expect(assigns(:pull_request).author).to eq @user
+      end
+
       it 'redirects to the created pull_request' do
         post(
           :create,
