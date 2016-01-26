@@ -59,6 +59,9 @@ end
 
 group :test do
   gem "codeclimate-test-reporter", require: nil
+
+  # For testing rails junk in models
+  gem 'shoulda'
 end
 
 group :development do

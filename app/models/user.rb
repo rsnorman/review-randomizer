@@ -5,10 +5,10 @@ class User < ActiveRecord::Base
   validates :name,      presence: true
   validates :email,     presence: true
 
-  has_many :repos,                             dependent: :destroy
-  has_many :teams,                             dependent: :destroy
-  has_many :team_memberships,                  dependent: :destroy
-  has_many :teams, through: :team_memberships, dependent: :destroy
+  has_many :repos,         foreign_key: :owner_id,  dependent: :destroy
+  has_many :pull_requests, foreign_key: :author_id, dependent: :destroy
+  has_many :team_memberships,                       dependent: :destroy
+  has_many :teams, through: :team_memberships,      dependent: :destroy
   has_many(
     :review_assignments,
     through: :team_memberships,
