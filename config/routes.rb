@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     resources :pull_requests
   end
 
+  resources :pull_requests, only: nil do
+    resources :review_assignments
+  end
+
   devise_for :users
 
   root 'welcome#index'

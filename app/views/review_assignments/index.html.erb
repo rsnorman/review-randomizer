@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Review Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Assignee</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @review_assignments.each do |review_assignment| %>
+      <tr>
+        <td><%= member_name(review_assignment.team_membership) %></td>
+        <td><%= link_to 'Show', pull_request_review_assignment_path(@pull_request, review_assignment) %></td>
+        <td><%= link_to 'Edit', edit_pull_request_review_assignment_path(@pull_request, review_assignment) %></td>
+        <td><%= link_to 'Destroy', pull_request_review_assignment_path(@pull_request, review_assignment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Review assignment', new_pull_request_review_assignment_path(@pull_request) %>

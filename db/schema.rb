@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124224153) do
+ActiveRecord::Schema.define(version: 20160126023626) do
 
   create_table "pull_requests", force: :cascade do |t|
     t.integer  "repo_id"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20160124224153) do
     t.integer  "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "author_id"
   end
 
+  add_index "pull_requests", ["author_id"], name: "index_pull_requests_on_author_id"
   add_index "pull_requests", ["repo_id"], name: "index_pull_requests_on_repo_id"
 
   create_table "repos", force: :cascade do |t|
@@ -44,12 +46,22 @@ ActiveRecord::Schema.define(version: 20160124224153) do
   add_index "repos_teams", ["repo_id"], name: "index_repos_teams_on_repo_id"
   add_index "repos_teams", ["team_id"], name: "index_repos_teams_on_team_id"
 
+  create_table "review_assignments", force: :cascade do |t|
+    t.integer  "pull_request_id"
+    t.integer  "team_membership_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "review_assignments", ["pull_request_id"], name: "index_review_assignments_on_pull_request_id"
+  add_index "review_assignments", ["team_membership_id"], name: "index_review_assignments_on_team_membership_id"
+
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.string   "handle"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "handle"
   end
 
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id"

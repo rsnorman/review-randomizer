@@ -3,10 +3,10 @@ class Ability
   include CanCan::Ability
 
   RULES = [
-    { subject: Repo, ownership: :owner_id },
-    { subject: Team, ownership: :leader_id },
-    { subject: TeamMembership, ownership: { team: :leader_id } },
-    { subject: PullRequest, ownership: { repo: :owner_id } }
+    { subject: Repo,             ownership: :owner_id                    },
+    { subject: Team,             ownership: :leader_id                   },
+    { subject: TeamMembership,   ownership: { team:         :leader_id } },
+    { subject: PullRequest,      ownership: { repo:         :owner_id  } }
   ].map(&:freeze).freeze
 
   def initialize(user)
@@ -19,6 +19,11 @@ class Ability
       RULES.each do |rule|
         add_owner_rules(rule[:subject], rule[:ownership])
       end
+
+      can :create,  ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
+      can :read,    ReviewAssignment
+      can :update,  ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
+      can :destroy, ReviewAssignment, create_nested_ownership_options(pull_request: :author_id)
     end
   end
 

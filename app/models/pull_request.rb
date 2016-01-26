@@ -1,6 +1,9 @@
 # Models pull requests in a repo
 class PullRequest < ActiveRecord::Base
   belongs_to :repo
+  belongs_to :author, class_name: 'User'
+
+  has_many :review_assignments
 
   validates :repo,    presence: true
   validates :title,   presence: true

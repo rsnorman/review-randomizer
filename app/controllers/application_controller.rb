@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
+    if Rails.env.test?
+      puts "Access Denied: subject => #{exception.subject}, " \
+           "action => #{exception.action}, message => #{exception.message}"
+    end
     redirect_to root_url, alert: exception.message
   end
 

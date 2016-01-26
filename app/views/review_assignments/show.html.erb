@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pull request:</strong>
+  <%= @pull_request.title %>
+</p>
+
+<p>
+  <strong>Team membership:</strong>
+  <%= member_name(@review_assignment.team_membership) %>
+</p>
+
+<%= link_to 'Edit', edit_pull_request_review_assignment_path(@pull_request, @review_assignment) %> |
+<%= link_to 'Back', pull_request_review_assignments_path(@pull_request) %>
