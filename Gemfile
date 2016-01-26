@@ -53,15 +53,15 @@ group :development, :test do
   # For fixtures and junk
   gem 'factory_girl_rails'
 
+  # For testing rails junk in models
+  gem 'shoulda-matchers'
+
   # For faking names, emails, and junk
   gem 'faker'
 end
 
 group :test do
   gem "codeclimate-test-reporter", require: nil
-
-  # For testing rails junk in models
-  gem 'shoulda'
 end
 
 group :development do
