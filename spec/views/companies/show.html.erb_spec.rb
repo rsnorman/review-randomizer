@@ -10,6 +10,6 @@ RSpec.describe 'companies/show', type: :view do
     render
     expect(rendered).to match(Regexp.new(company.token))
     expect(rendered).to match(Regexp.new(company.domain))
-    expect(rendered).to match(Regexp.new(company.owner.name))
+    expect(rendered).to match(Regexp.new(CGI.escape_html(company.owner.name)))
   end
 end

@@ -12,6 +12,6 @@ class AddCompanyAssociations < ActiveRecord::Migration
     add_foreign_key :companies, :companies
     add_index :repos, :company_id
 
-    remove_column :repos, :name
+    remove_column :repos, :company, :string
   end
 end

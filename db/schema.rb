@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(version: 20160127021548) do
   add_index "pull_requests", ["repo_id"], name: "index_pull_requests_on_repo_id"
 
   create_table "repos", force: :cascade do |t|
-    t.string   "company"
     t.string   "organization"
     t.text     "description"
     t.string   "url"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "owner_id"
+    t.string   "name"
     t.integer  "company_id"
   end
 
