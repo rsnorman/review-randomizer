@@ -58,5 +58,18 @@ RSpec.describe PullRequests::PullRequestCreator do
           .to eq([reviewer1, reviewer2])
       end
     end
+
+    context 'without team assigned to pull request\'s repo' do
+      before do
+        user.team_memberships.destroy_all
+      end
+
+      it 'raises missing repo exception' do
+        expect { creator.create }.to raise_exception(
+          described_class::TeamRepoMismatch,
+          'Author not on team tied to pull request\'s repo'
+        )
+      end
+    end
   end
 end
