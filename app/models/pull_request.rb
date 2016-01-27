@@ -4,6 +4,8 @@ class PullRequest < ActiveRecord::Base
   belongs_to :author, class_name: 'User'
 
   has_many :review_assignments
+  has_many :team_memberships,   through: :review_assignments
+  has_many :users,              through: :team_memberships
 
   validates :repo,    presence: true
   validates :title,   presence: true
