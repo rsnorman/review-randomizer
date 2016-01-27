@@ -8,4 +8,10 @@ RSpec.describe Company, type: :model do
   it { is_expected.to validate_presence_of :owner }
 
   it { is_expected.to validate_uniqueness_of :domain }
+
+  describe '#set_token' do
+    it 'sets token after create' do
+      expect(FactoryGirl.create(:company, token: nil).token).to_not be_nil
+    end
+  end
 end
