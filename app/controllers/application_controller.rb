@@ -25,4 +25,5 @@ class ApplicationController < ActionController::Base
   def current_company
     @current_company ||= current_user.company
   end
+  helper_method :current_company
 end

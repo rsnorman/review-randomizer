@@ -13,14 +13,15 @@
 
   <body>
     <header class="row">
-      <div class="large-9 columns">
+      <div class="large-7 columns">
         <div class="panel">
           <h1><%= link_to 'Review Randomizer', root_path %></h1>
         </div>
       </div>
-      <div class="large-3 columns">
+      <div class="large-5 columns">
         <% if user_signed_in? %>
           Hey! <%= current_user.name %> |
+          <%= current_company.try(:name) || 'Admin' %> |
           <%= link_to 'Profile', edit_user_registration_path %> |
           <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
         <% else %>
