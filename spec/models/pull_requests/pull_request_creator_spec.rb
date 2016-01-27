@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PullRequestUrlCreator do
+RSpec.describe PullRequests::PullRequestCreator do
   describe '#create' do
     let(:repo) do
       FactoryGirl.create(
@@ -56,19 +56,6 @@ RSpec.describe PullRequestUrlCreator do
       it 'assigns two random reviewers' do
         expect(pull_request.users.to_a.sort_by(&:id))
           .to eq([reviewer1, reviewer2])
-      end
-    end
-
-    context 'without repo matching url' do
-      let(:pr_url) do
-        'https://github.com/rsnorman/other-repo/pull_requests/1'
-      end
-
-      it 'raises missing repo exception' do
-        expect { creator.create }.to raise_exception(
-          PullRequestUrlCreator::MissingRepo,
-          'Could not find repo with URL: https://github.com/rsnorman/other-repo'
-        )
       end
     end
   end
