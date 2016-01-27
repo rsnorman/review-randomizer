@@ -8,5 +8,4 @@ RSpec.describe Company, type: :model do
   it { is_expected.to validate_presence_of :owner }
 
   it { is_expected.to validate_uniqueness_of :domain }
-
 end

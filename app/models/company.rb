@@ -5,7 +5,7 @@ class Company < ActiveRecord::Base
   validates :name, presence: true
   validates :domain, presence: true, uniqueness: true
   validates :token, presence: true, uniqueness: true
-  validates :owner , presence: true
+  validates :owner, presence: true
 
   before_validation :set_token
 
