@@ -9,8 +9,6 @@ RSpec.describe 'repos/edit', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', repo_path(@repo), 'post' do
-      assert_select 'input#repo_company[name=?]', 'repo[company]'
-
       assert_select 'input#repo_organization[name=?]', 'repo[organization]'
 
       assert_select 'input#repo_name[name=?]', 'repo[name]'

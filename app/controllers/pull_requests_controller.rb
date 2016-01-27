@@ -2,7 +2,7 @@
 class PullRequestsController < ApplicationController
   respond_to :html, :json
 
-  load_resource :repo
+  load_resource :repo,                       through: :current_company
   load_and_authorize_resource :pull_request, through: :repo
 
   def create

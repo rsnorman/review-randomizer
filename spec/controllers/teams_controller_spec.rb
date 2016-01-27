@@ -72,6 +72,16 @@ RSpec.describe TeamsController, type: :controller do
         post :create, { team: valid_attributes }, valid_session
         expect(response).to redirect_to(Team.last)
       end
+
+      it 'assigns the leader as the current user' do
+        post :create, { team: valid_attributes }, valid_session
+        expect(assigns(:team).leader).to eq @user
+      end
+
+      it 'assigns the company as the current user\'s company' do
+        post :create, { team: valid_attributes }, valid_session
+        expect(assigns(:team).company).to eq @user.company
+      end
     end
 
     context 'with invalid params' do

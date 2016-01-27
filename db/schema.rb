@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126023626) do
+ActiveRecord::Schema.define(version: 20160127021548) do
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "token",      limit: 32
+    t.string   "domain"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "owner_id"
+  end
+
+  add_index "companies", ["owner_id"], name: "index_companies_on_owner_id"
 
   create_table "pull_requests", force: :cascade do |t|
     t.integer  "repo_id"
@@ -26,16 +37,17 @@ ActiveRecord::Schema.define(version: 20160126023626) do
   add_index "pull_requests", ["repo_id"], name: "index_pull_requests_on_repo_id"
 
   create_table "repos", force: :cascade do |t|
-    t.string   "company"
     t.string   "organization"
-    t.string   "name"
     t.text     "description"
     t.string   "url"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "owner_id"
+    t.string   "name"
+    t.integer  "company_id"
   end
 
+  add_index "repos", ["company_id"], name: "index_repos_on_company_id"
   add_index "repos", ["owner_id"], name: "index_repos_on_owner_id"
 
   create_table "repos_teams", id: false, force: :cascade do |t|
@@ -72,8 +84,10 @@ ActiveRecord::Schema.define(version: 20160126023626) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "leader_id"
+    t.integer  "company_id"
   end
 
+  add_index "teams", ["company_id"], name: "index_teams_on_company_id"
   add_index "teams", ["leader_id"], name: "index_teams_on_leader_id"
 
   create_table "users", force: :cascade do |t|
@@ -92,8 +106,10 @@ ActiveRecord::Schema.define(version: 20160126023626) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "role",                   limit: 5, default: "User"
+    t.integer  "company_id"
   end
 
+  add_index "users", ["company_id"], name: "index_users_on_company_id"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 

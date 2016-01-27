@@ -1,0 +1,21 @@
+<% content_for(:title) do %>
+  <%= @company.name %> Company
+<% end %>
+
+<p>
+  <strong>Token:</strong>
+  <%= @company.token %>
+</p>
+
+<p>
+  <strong>Domain:</strong>
+  <%= @company.domain %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @company.owner.name %>
+</p>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>

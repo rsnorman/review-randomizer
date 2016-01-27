@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :user do
+    company
     name { Faker::Name.name }
     handle { Faker::Internet.user_name }
     role 'User'
@@ -8,10 +9,10 @@ FactoryGirl.define do
   end
 
   factory :admin, class: User do
-    name 'Administrator'
-    handle 'admin'
+    name { "Administrator #{Faker::Name.name}" }
+    handle { "admin_#{Faker::Internet.user_name}" }
     role 'Admin'
-    email 'admin@review-randomizer.com'
+    sequence(:email) { |n| "admin+#{n}@review-randomizer.com" }
     password 'supersecret'
   end
 end

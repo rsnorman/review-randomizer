@@ -2,8 +2,11 @@
 class User < ActiveRecord::Base
   ADMIN_ROLE = 'Admin'.freeze
 
-  validates :name,      presence: true
-  validates :email,     presence: true
+  validates :name,     presence: true
+  validates :email,    presence: true
+  validates :company,  presence: true, unless: :admin?
+
+  belongs_to :company
 
   has_many :repos,         foreign_key: :owner_id,  dependent: :destroy
   has_many :pull_requests, foreign_key: :author_id, dependent: :destroy

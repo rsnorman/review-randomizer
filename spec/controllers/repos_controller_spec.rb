@@ -2,21 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ReposController, type: :controller do
   login_user
+  let(:repo) { FactoryGirl.create(:repo, owner: @user) }
 
   let(:valid_attributes) do
-    Hash[
-      company: 'All Things Serve The Code',
-      organization: 'Norman Dev',
-      name: 'Review Randomizer',
-      description: 'Assigns random team members to review Pull Requests',
-      url: 'http://www.github.com/review-randomizer',
-      owner: @user,
-    ]
+    FactoryGirl.attributes_for(:repo, owner: @user)
   end
 
   let(:invalid_attributes) do
     Hash[
-      company: 'All Things Serve The Code',
       organization: 'Norman Dev',
       name: 'Review Randomizer',
       description: 'Assigns random team members to review Pull Requests',
@@ -27,8 +20,9 @@ RSpec.describe ReposController, type: :controller do
   let(:valid_session) { {} }
 
   describe 'GET #index' do
+    before { repo }
+
     it 'assigns all repos as @repos' do
-      repo = Repo.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:repos)).to eq([repo])
     end
@@ -36,7 +30,6 @@ RSpec.describe ReposController, type: :controller do
 
   describe 'GET #show' do
     it 'assigns the requested repo as @repo' do
-      repo = Repo.create! valid_attributes
       get :show, { id: repo.to_param }, valid_session
       expect(assigns(:repo)).to eq(repo)
     end
@@ -51,7 +44,6 @@ RSpec.describe ReposController, type: :controller do
 
   describe 'GET #edit' do
     it 'assigns the requested repo as @repo' do
-      repo = Repo.create! valid_attributes
       get :edit, { id: repo.to_param }, valid_session
       expect(assigns(:repo)).to eq(repo)
     end
@@ -80,6 +72,11 @@ RSpec.describe ReposController, type: :controller do
         post :create, { repo: valid_attributes }, valid_session
         expect(assigns(:repo).owner).to eq @user
       end
+
+      it 'assigns the company as the current user\'s company' do
+        post :create, { repo: valid_attributes }, valid_session
+        expect(assigns(:repo).company).to eq @user.company
+      end
     end
 
     context 'with invalid params' do
@@ -104,14 +101,12 @@ RSpec.describe ReposController, type: :controller do
       end
 
       it 'updates the requested repo' do
-        repo = Repo.create! valid_attributes
         put :update, { id: repo.to_param, repo: new_attributes }, valid_session
         repo.reload
         expect(repo.name).to eq 'PR Review Randomizer'
       end
 
       it 'assigns the requested repo as @repo' do
-        repo = Repo.create! valid_attributes
         put(
           :update, { id: repo.to_param, repo: valid_attributes }, valid_session
         )
@@ -119,7 +114,6 @@ RSpec.describe ReposController, type: :controller do
       end
 
       it 'redirects to the repo' do
-        repo = Repo.create! valid_attributes
         put(
           :update, { id: repo.to_param, repo: valid_attributes }, valid_session
         )
@@ -129,7 +123,6 @@ RSpec.describe ReposController, type: :controller do
 
     context 'with invalid params' do
       it 'assigns the repo as @repo' do
-        repo = Repo.create! valid_attributes
         put(
           :update,
           { id: repo.to_param, repo: invalid_attributes },
@@ -139,7 +132,6 @@ RSpec.describe ReposController, type: :controller do
       end
 
       it "re-renders the 'edit' template" do
-        repo = Repo.create! valid_attributes
         put(
           :update,
           { id: repo.to_param, repo: invalid_attributes },
@@ -153,14 +145,13 @@ RSpec.describe ReposController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the requested repo' do
-      repo = Repo.create! valid_attributes
+      repo
       expect do
         delete :destroy, { id: repo.to_param }, valid_session
       end.to change(Repo, :count).by(-1)
     end
 
     it 'redirects to the repos list' do
-      repo = Repo.create! valid_attributes
       delete :destroy, { id: repo.to_param }, valid_session
       expect(response).to redirect_to(repos_url)
     end

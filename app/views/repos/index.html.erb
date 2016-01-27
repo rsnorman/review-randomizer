@@ -5,7 +5,6 @@
 <table>
   <thead>
     <tr>
-      <th>Company</th>
       <th>Organization</th>
       <th>Name</th>
       <th>Description</th>
@@ -18,7 +17,6 @@
   <tbody>
     <% @repos.each do |repo| %>
       <tr>
-        <td><%= repo.company %></td>
         <td><%= repo.organization %></td>
         <td><%= repo.name %></td>
         <td><%= repo.description %></td>
