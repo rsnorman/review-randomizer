@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  it { is_expected.to belong_to :company }
+
   it { is_expected.to have_many :repos }
   it { is_expected.to have_many :teams }
   it { is_expected.to have_many :team_memberships }
   it { is_expected.to have_many :review_assignments }
 
+  it { is_expected.to validate_presence_of :company }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :email }
 

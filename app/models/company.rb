@@ -2,10 +2,14 @@
 class Company < ActiveRecord::Base
   belongs_to :owner, class_name: 'User'
 
-  validates :name, presence: true
-  validates :domain, presence: true, uniqueness: true
-  validates :token, presence: true, uniqueness: true
-  validates :owner, presence: true
+  has_many :teams
+  has_many :users
+  has_many :repos
+
+  validates :name,    presence: true
+  validates :domain,  presence: true, uniqueness: true
+  validates :token,   presence: true, uniqueness: true
+  validates :owner,   presence: true
 
   before_validation :set_token
 

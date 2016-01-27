@@ -19,4 +19,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
     devise_parameter_sanitizer.for(:account_update) << :handle
   end
+
+  private
+
+  def current_company
+    @current_company ||= current_user.company
+  end
 end

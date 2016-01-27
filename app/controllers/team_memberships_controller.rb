@@ -2,7 +2,7 @@
 class TeamMembershipsController < ApplicationController
   respond_to :html, :json
 
-  load_and_authorize_resource :team
+  load_and_authorize_resource :team,            through: :current_company
   load_and_authorize_resource :team_membership, through: :team
 
   def create

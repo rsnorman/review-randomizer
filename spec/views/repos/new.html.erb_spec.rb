@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'repos/new', type: :view do
   before(:each) do
     assign(:repo, Repo.new(
-                    company: 'MyString',
                     organization: 'MyString',
                     name: 'MyString',
                     description: 'MyString',
@@ -15,8 +14,6 @@ RSpec.describe 'repos/new', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', repos_path, 'post' do
-      assert_select 'input#repo_company[name=?]', 'repo[company]'
-
       assert_select 'input#repo_organization[name=?]', 'repo[organization]'
 
       assert_select 'input#repo_name[name=?]', 'repo[name]'

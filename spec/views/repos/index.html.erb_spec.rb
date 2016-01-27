@@ -10,13 +10,11 @@ RSpec.describe 'repos/index', type: :view do
 
   it 'renders a list of repos' do
     render
-    assert_select 'tr>td', text: repo1.company, count: 1
     assert_select 'tr>td', text: repo1.organization, count: 1
     assert_select 'tr>td', text: repo1.name, count: 1
     assert_select 'tr>td', text: repo1.description, count: 1
     assert_select 'tr>td', text: repo1.url, count: 1
     assert_select 'tr>td', text: repo1.owner.name, count: 1
-    assert_select 'tr>td', text: repo2.company, count: 1
     assert_select 'tr>td', text: repo2.organization, count: 1
     assert_select 'tr>td', text: repo2.name, count: 1
     assert_select 'tr>td', text: repo2.description, count: 1

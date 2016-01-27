@@ -1,7 +1,7 @@
 # Controllers for repositories that will have PRs opened against it
 class ReposController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_company
 
   def create
     @repo.save
@@ -22,7 +22,7 @@ class ReposController < ApplicationController
 
   def repo_params
     params.require(:repo).permit(
-      :company, :organization, :name, :description, :url
+      :organization, :name, :description, :url
     ).tap do |params|
       params[:owner] = current_user
     end

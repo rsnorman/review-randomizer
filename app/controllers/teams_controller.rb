@@ -1,7 +1,7 @@
 # Controller for teams tied to repos and contains users
 class TeamsController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_company
 
   def create
     @team.save
