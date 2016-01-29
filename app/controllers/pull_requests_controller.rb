@@ -1,32 +1,15 @@
-# Controller for pull requests in a repo
+# Controller for pull requests
 class PullRequestsController < ApplicationController
   respond_to :html, :json
-
-  load_resource :repo,                       through: :current_company
-  load_and_authorize_resource :pull_request, through: :repo
 
   def create
     @pull_request.save
     respond_with @repo, @pull_request
   end
 
-  def update
-    @pull_request.update(pull_request_params)
-    respond_with @repo, @pull_request
-  end
-
-  def destroy
-    @pull_request.destroy
-    respond_with @repo, @pull_request
-  end
-
   private
 
   def pull_request_params
-    params
-      .require(:pull_request)
-      .permit(:repo_id, :title, :number).tap do |params|
-        params[:author] = current_user
-      end
+    params.require(:pull_request).permit(:url, :title)
   end
 end

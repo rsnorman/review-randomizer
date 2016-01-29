@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   end
 
   resources :repos do
-    resources :pull_requests
+    resources :pull_requests, controller: :repo_pull_requests
   end
 
-  resources :pull_requests, only: nil do
+  resources :pull_requests, only: [:new, :create] do
     resources :review_assignments
   end
 
