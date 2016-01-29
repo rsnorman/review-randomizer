@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'pull_requests/show', type: :view do
+RSpec.describe 'repo_pull_requests/show', type: :view do
   let(:repo) { FactoryGirl.create(:repo) }
   let(:pull_request) { FactoryGirl.create(:pull_request, repo: repo) }
 

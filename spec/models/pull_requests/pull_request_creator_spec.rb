@@ -18,12 +18,8 @@ RSpec.describe PullRequests::PullRequestCreator do
         title:  pr_title
       )
     end
-    let(:pr_title) do
-      Faker::Hacker.say_something_smart
-    end
-    let(:pr_url) do
-      'https://github.com/rsnorman/review-randomizer/pull_requests/15'
-    end
+    let(:pr_title) { Faker::Hacker.say_something_smart }
+    let(:pr_url) { 'https://github.com/rsnorman/review-randomizer/pull/15' }
 
     before do
       team.users << user

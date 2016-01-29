@@ -2,7 +2,7 @@ module PullRequests
   # Parses the pull request attributes from a URL
   class UrlParser
     URL_PATH_DELIMITER       = '/'.freeze
-    GITHUB_PR_RESOURCE_PATH  = '/pull_requests'.freeze
+    GITHUB_PR_RESOURCE_PATH  = '/pull'.freeze
 
     MissingRepo = Class.new(ReviewRandomizerError)
 
