@@ -15,11 +15,8 @@ module PullRequests
     private
 
     def get_random_team_memberships(team_memberships)
-      allowed_team_memberships(team_memberships).sample(assignment_count)
-    end
-
-    def allowed_team_memberships(team_memberships)
-      team_memberships.where.not(user_id: pull_request.author_id)
+      team_memberships.only_team_mates(pull_request.author)
+                      .sample(assignment_count)
     end
 
     attr_reader :pull_request, :assignment_count

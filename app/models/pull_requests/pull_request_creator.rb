@@ -4,7 +4,6 @@ module PullRequests
   class PullRequestCreator
     DEFAULT_REVIEW_ASSIGNMENTS = 2
 
-    TeamRepoMismatch = Class.new(ReviewRandomizerError)
 
     def initialize(attrs)
       fail ArgumentError, 'Missing :url attribute'    unless attrs.key?(:url)
@@ -32,15 +31,8 @@ module PullRequests
     end
 
     def team
-      @team ||= attributes[:repo].teams.detect do |team|
-        team.users.include?(attributes[:author])
-      end
-
-      if @team.nil?
-        fail TeamRepoMismatch, 'Author not on team tied to pull request\'s repo'
-      end
-
-      @team
+      @team ||=
+        Repos::TeamFinder.new(attributes[:repo]).for_user!(attributes[:author])
     end
 
     attr_reader :attributes

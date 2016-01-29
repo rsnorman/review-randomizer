@@ -15,4 +15,6 @@ class TeamMembership < ActiveRecord::Base
     presence: true,
     if: proc { |membership| membership.handle.nil? }
   )
+
+  scope :only_team_mates, -> (user) { where.not(user: user) }
 end
