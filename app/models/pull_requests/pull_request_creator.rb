@@ -4,7 +4,6 @@ module PullRequests
   class PullRequestCreator
     DEFAULT_REVIEW_ASSIGNMENTS = 2
 
-
     def initialize(attrs)
       fail ArgumentError, 'Missing :url attribute'    unless attrs.key?(:url)
       fail ArgumentError, 'Missing :author attribute' unless attrs.key?(:author)
