@@ -28,10 +28,10 @@ class RepoPullRequestsController < ApplicationController
     @pull_request =
       if params[:id]
         @repo.pull_requests.find(params[:id])
-      elsif params[:action] == 'new'
-        @repo.pull_requests.build
-      else
+      elsif params.key?(:pull_request)
         @repo.pull_requests.build(pull_request_params)
+      else
+        @repo.pull_requests.build
       end
   end
 
