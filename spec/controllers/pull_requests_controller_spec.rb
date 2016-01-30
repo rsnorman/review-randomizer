@@ -4,18 +4,29 @@ RSpec.describe PullRequestsController, type: :controller do
   login_user
 
   let(:valid_attributes) do
-    FactoryGirl.attributes_for(:pull_request)
+    {
+      title: Faker::Hacker.say_something_smart,
+      url:   "#{repo.url}/pulls/1"
+    }
   end
 
   let(:invalid_attributes) do
     {
-      title: nil
+      title: Faker::Hacker.say_something_smart,
+      url:   'http://randombadurl.com'
     }
   end
 
   let(:valid_session) { {} }
 
   let(:repo) { FactoryGirl.create(:repo, owner: @user) }
+  let(:team) { FactoryGirl.create(:team) }
+
+  before do
+    team.repos << repo
+    team.users << @user
+  end
+
   let(:pull_request) { FactoryGirl.create(:pull_request, repo: repo) }
 
   describe 'GET #new' do
@@ -66,7 +77,7 @@ RSpec.describe PullRequestsController, type: :controller do
       end
     end
 
-    context 'with invalid params' do
+    context 'with invalid URL param' do
       it 'assigns a newly created but unsaved pull_request as @pull_request' do
         post(
           :create,
@@ -83,6 +94,48 @@ RSpec.describe PullRequestsController, type: :controller do
           valid_session
         )
         expect(response).to render_template('new')
+      end
+
+      it 'alerts that the repo does not exist' do
+        post(
+          :create,
+          { pull_request: invalid_attributes, repo_id: repo.to_param },
+          valid_session
+        )
+        expect(session["flash"]["flashes"]["alert"])
+          .to eq 'Could not find repo with URL: http://randombadurl.com'
+      end
+    end
+
+    context 'with creator not assigned to repo' do
+      before { team.users.delete(@user) }
+
+      it 'assigns a newly created but unsaved pull_request as @pull_request' do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
+          valid_session
+        )
+        expect(assigns(:pull_request)).to be_a_new(PullRequest)
+      end
+
+      it "re-renders the 'new' template" do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
+          valid_session
+        )
+        expect(response).to render_template('new')
+      end
+
+      it 'alerts that pull request author is not in correct team' do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
+          valid_session
+        )
+        expect(session["flash"]["flashes"]["alert"])
+          .to eq 'User not on team tied to pull request\'s repo'
       end
     end
   end

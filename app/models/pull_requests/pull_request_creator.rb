@@ -8,30 +8,38 @@ module PullRequests
       fail ArgumentError, 'Missing :url attribute'    unless attrs.key?(:url)
       fail ArgumentError, 'Missing :author attribute' unless attrs.key?(:author)
 
-      @attributes = attrs.merge(
-        PullRequests::UrlParser.new(attrs.delete(:url)).as_json
-      )
+      @attributes = attrs.merge(url_as_json(attrs.delete(:url)))
     end
 
     def create
       PullRequest.transaction do
-        PullRequest.create(attributes).tap do |pull_request|
-          PullRequests::RandomReviewerAssigner.new(
-            pull_request, DEFAULT_REVIEW_ASSIGNMENTS
-          ).assign_reviewers(team_memberships)
+        create_pull_request.tap do |pull_request|
+          assign_reviewers(pull_request)
         end
       end
     end
 
     private
 
-    def team_memberships
-      team.team_memberships
+    def url_as_json(url)
+      PullRequests::UrlParser.new(url).as_json
+    end
+
+    def create_pull_request
+      PullRequest.create(attributes)
+    end
+
+    def assign_reviewers(pull_request)
+      PullRequests::RandomReviewerAssigner.new(pull_request, team)
+        .assign_reviewers(DEFAULT_REVIEW_ASSIGNMENTS)
     end
 
     def team
-      @team ||=
-        Repos::TeamFinder.new(attributes[:repo]).for_user!(attributes[:author])
+      @team ||= team_finder.for_user!(attributes[:author])
+    end
+
+    def team_finder
+      Repos::TeamFinder.new(attributes[:repo])
     end
 
     attr_reader :attributes

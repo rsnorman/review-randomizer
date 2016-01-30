@@ -11,7 +11,5 @@ class PullRequest < ActiveRecord::Base
   validates :author,  presence: true
   validates :number,  presence: true, uniqueness: { scope: :repo_id }
 
-  def url
-    # returns current url
-  end
+  attr_accessor :url
 end

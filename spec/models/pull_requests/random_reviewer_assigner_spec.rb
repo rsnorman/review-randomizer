@@ -14,19 +14,19 @@ RSpec.describe PullRequests::RandomReviewerAssigner do
       end
     end
 
-    let(:assigner) { described_class.new(pull_request, 2) }
+    let(:assigner) { described_class.new(pull_request, team) }
 
     it 'assigns two random reviewers' do
-      assigner.assign_reviewers(TeamMembership.all)
+      assigner.assign_reviewers(2)
       expect(pull_request.users.to_a.sort_by(&:id))
         .to eq([reviewer2, reviewer3])
     end
 
-    context 'when initialized with different assignment count' do
-      let(:assigner) { described_class.new(pull_request, 1) }
+    context 'when created with different assignment count' do
+      let(:assigner) { described_class.new(pull_request, team) }
 
       it 'assigns only 1 reviewer' do
-        expect { assigner.assign_reviewers(TeamMembership.all) }
+        expect { assigner.assign_reviewers(1) }
           .to change(pull_request.users, :count).by 1
       end
     end

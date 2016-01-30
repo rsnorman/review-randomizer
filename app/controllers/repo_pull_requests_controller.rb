@@ -46,5 +46,4 @@ class RepoPullRequestsController < ApplicationController
         params[:author] = current_user
       end
   end
-
 end

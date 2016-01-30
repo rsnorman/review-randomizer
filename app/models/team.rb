@@ -11,4 +11,8 @@ class Team < ActiveRecord::Base
 
   has_many :team_memberships
   has_many :users, through: :team_memberships
+
+  def team_mates_for(user)
+    team_memberships.select { |tm| tm.user_id != user.id }
+  end
 end

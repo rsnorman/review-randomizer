@@ -1,25 +1,35 @@
 module PullRequests
   # Assigns random reviewers to a pull request
   class RandomReviewerAssigner
-    def initialize(pull_request, assignment_count)
-      @pull_request      = pull_request
-      @assignment_count  = assignment_count
+    def initialize(pull_request, team)
+      @pull_request  = pull_request
+      @team          = team
     end
 
-    def assign_reviewers(team_memberships)
-      get_random_team_memberships(team_memberships).map do |team_membership|
-        pull_request.review_assignments.create(team_membership: team_membership)
+    def assign_reviewers(assignment_count)
+      get_random_team_memberships(assignment_count).map do |team_membership|
+        create_review_assignment(team_membership)
       end
     end
 
     private
 
-    def get_random_team_memberships(team_memberships)
-      team_memberships
-        .only_team_mates(pull_request.author)
-        .sample(assignment_count)
+    def get_random_team_memberships(assignment_count)
+      author_team_mates.sample(assignment_count)
     end
 
-    attr_reader :pull_request, :assignment_count
+    def author
+      pull_request.author
+    end
+
+    def author_team_mates
+      team.team_mates_for(author)
+    end
+
+    def create_review_assignment(team_membership)
+      pull_request.review_assignments.create(team_membership: team_membership)
+    end
+
+    attr_reader :pull_request, :team
   end
 end
