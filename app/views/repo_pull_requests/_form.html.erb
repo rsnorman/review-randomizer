@@ -1,9 +1,10 @@
-<%= simple_form_for(@pull_request) do |f| %>
+<%= simple_form_for([@repo, @pull_request]) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.association :repo %>
     <%= f.input :title %>
-    <%= f.input :url, required: true %>
+    <%= f.input :number %>
   </div>
 
   <div class="form-actions">

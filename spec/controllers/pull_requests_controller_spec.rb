@@ -4,55 +4,35 @@ RSpec.describe PullRequestsController, type: :controller do
   login_user
 
   let(:valid_attributes) do
-    FactoryGirl.attributes_for(:pull_request)
+    {
+      title: Faker::Hacker.say_something_smart,
+      url:   "#{repo.url}/pulls/1"
+    }
   end
 
   let(:invalid_attributes) do
     {
-      title: nil
+      title: Faker::Hacker.say_something_smart,
+      url:   'http://randombadurl.com'
     }
   end
 
   let(:valid_session) { {} }
 
   let(:repo) { FactoryGirl.create(:repo, owner: @user) }
+  let(:team) { FactoryGirl.create(:team) }
+
+  before do
+    team.repos << repo
+    team.users << @user
+  end
+
   let(:pull_request) { FactoryGirl.create(:pull_request, repo: repo) }
-
-  describe 'GET #index' do
-    before { pull_request }
-
-    it 'assigns all pull_requests as @pull_requests' do
-      get :index, { repo_id: repo.to_param }, valid_session
-      expect(assigns(:pull_requests)).to eq([pull_request])
-    end
-  end
-
-  describe 'GET #show' do
-    it 'assigns the requested pull_request as @pull_request' do
-      get(
-        :show,
-        { id: pull_request.to_param, repo_id: repo.to_param },
-        valid_session
-      )
-      expect(assigns(:pull_request)).to eq(pull_request)
-    end
-  end
 
   describe 'GET #new' do
     it 'assigns a new pull_request as @pull_request' do
       get :new, { repo_id: repo.to_param }, valid_session
-      expect(assigns(:pull_request)).to be_a_new(PullRequest)
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'assigns the requested pull_request as @pull_request' do
-      get(
-        :edit,
-        { id: pull_request.to_param, repo_id: repo.to_param },
-        valid_session
-      )
-      expect(assigns(:pull_request)).to eq(pull_request)
+      expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
     end
   end
 
@@ -97,14 +77,14 @@ RSpec.describe PullRequestsController, type: :controller do
       end
     end
 
-    context 'with invalid params' do
+    context 'with invalid URL param' do
       it 'assigns a newly created but unsaved pull_request as @pull_request' do
         post(
           :create,
           { pull_request: invalid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(assigns(:pull_request)).to be_a_new(PullRequest)
+        expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
       end
 
       it "re-renders the 'new' template" do
@@ -115,104 +95,48 @@ RSpec.describe PullRequestsController, type: :controller do
         )
         expect(response).to render_template('new')
       end
-    end
-  end
 
-  describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) do
-        { title: 'Fixing all my broken specs' }
-      end
-
-      it 'updates the requested pull_request' do
-        put(
-          :update,
-          {
-            id: pull_request.to_param,
-            pull_request: new_attributes,
-            repo_id: repo.to_param
-          },
+      it 'alerts that the repo does not exist' do
+        post(
+          :create,
+          { pull_request: invalid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        pull_request.reload
-        expect(pull_request.title).to eq 'Fixing all my broken specs'
-      end
-
-      it 'assigns the requested pull_request as @pull_request' do
-        put(
-          :update,
-          {
-            id: pull_request.to_param,
-            pull_request: valid_attributes,
-            repo_id: repo.to_param
-          },
-          valid_session
-        )
-        expect(assigns(:pull_request)).to eq(pull_request)
-      end
-
-      it 'redirects to the pull_request' do
-        put(
-          :update,
-          {
-            id: pull_request.to_param,
-            pull_request: valid_attributes,
-            repo_id: repo.to_param
-          },
-          valid_session
-        )
-        expect(response).to redirect_to([repo, pull_request])
+        expect(session['flash']['flashes']['alert'])
+          .to eq 'Could not find repo with URL: http://randombadurl.com'
       end
     end
 
-    context 'with invalid params' do
-      it 'assigns the pull_request as @pull_request' do
-        put(
-          :update,
-          {
-            id: pull_request.to_param,
-            pull_request: invalid_attributes,
-            repo_id: repo.to_param
-          },
+    context 'with creator not assigned to repo' do
+      before { team.users.delete(@user) }
+
+      it 'assigns a newly created but unsaved pull_request as @pull_request' do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(assigns(:pull_request)).to eq(pull_request)
+        expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
       end
 
-      it "re-renders the 'edit' template" do
-        put(
-          :update,
-          {
-            id: pull_request.to_param,
-            pull_request: invalid_attributes,
-            repo_id: repo.to_param
-          },
+      it "re-renders the 'new' template" do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(response).to render_template('edit')
+        expect(response).to render_template('new')
       end
-    end
-  end
 
-  describe 'DELETE #destroy' do
-    before { pull_request }
-    it 'destroys the requested pull_request' do
-      expect do
-        delete(
-          :destroy,
-          { id: pull_request.to_param, repo_id: repo.to_param },
+      it 'alerts that pull request author is not in correct team' do
+        post(
+          :create,
+          { pull_request: valid_attributes, repo_id: repo.to_param },
           valid_session
         )
-      end.to change(PullRequest, :count).by(-1)
-    end
-
-    it 'redirects to the pull_requests list' do
-      delete(
-        :destroy,
-        { id: pull_request.to_param, repo_id: repo.to_param },
-        valid_session
-      )
-      expect(response).to redirect_to(repo_pull_requests_url(repo))
+        expect(session['flash']['flashes']['alert'])
+          .to eq 'User not on team tied to pull request\'s repo'
+      end
     end
   end
 end
