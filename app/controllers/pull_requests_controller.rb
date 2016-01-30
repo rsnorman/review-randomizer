@@ -4,12 +4,12 @@ class PullRequestsController < ApplicationController
 
   rescue_from ReviewRandomizerError do |exception|
     flash[:alert] = exception.message
-    @pull_request = PullRequest.new(pull_request_params)
+    @pull_request = build_pull_request
     render :new
   end
 
   def new
-    @pull_request = PullRequest.new
+    @pull_request = build_pull_request
   end
 
   def create
@@ -27,5 +27,14 @@ class PullRequestsController < ApplicationController
 
   def pull_request_creator
     PullRequests::PullRequestCreator.new(pull_request_params)
+  end
+
+  def build_pull_request
+    PullRequests::UrlPullRequest.new(PullRequest.new).tap do |pull_request|
+      if params.key?(:pull_request)
+        pull_request.url        = pull_request_params.delete(:url)
+        pull_request.attributes = pull_request_params.except(:url)
+      end
+    end
   end
 end

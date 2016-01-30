@@ -30,7 +30,8 @@ module PullRequests
     end
 
     def assign_reviewers(pull_request)
-      PullRequests::RandomReviewerAssigner.new(pull_request, team)
+      PullRequests::RandomReviewerAssigner
+        .new(pull_request, team)
         .assign_reviewers(DEFAULT_REVIEW_ASSIGNMENTS)
     end
 

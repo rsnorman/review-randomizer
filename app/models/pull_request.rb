@@ -10,6 +10,4 @@ class PullRequest < ActiveRecord::Base
   validates :title,   presence: true
   validates :author,  presence: true
   validates :number,  presence: true, uniqueness: { scope: :repo_id }
-
-  attr_accessor :url
 end

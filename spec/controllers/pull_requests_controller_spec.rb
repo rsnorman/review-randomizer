@@ -32,7 +32,7 @@ RSpec.describe PullRequestsController, type: :controller do
   describe 'GET #new' do
     it 'assigns a new pull_request as @pull_request' do
       get :new, { repo_id: repo.to_param }, valid_session
-      expect(assigns(:pull_request)).to be_a_new(PullRequest)
+      expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
     end
   end
 
@@ -84,7 +84,7 @@ RSpec.describe PullRequestsController, type: :controller do
           { pull_request: invalid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(assigns(:pull_request)).to be_a_new(PullRequest)
+        expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
       end
 
       it "re-renders the 'new' template" do
@@ -102,7 +102,7 @@ RSpec.describe PullRequestsController, type: :controller do
           { pull_request: invalid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(session["flash"]["flashes"]["alert"])
+        expect(session['flash']['flashes']['alert'])
           .to eq 'Could not find repo with URL: http://randombadurl.com'
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe PullRequestsController, type: :controller do
           { pull_request: valid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(assigns(:pull_request)).to be_a_new(PullRequest)
+        expect(assigns(:pull_request)).to be_a_new(PullRequests::UrlPullRequest)
       end
 
       it "re-renders the 'new' template" do
@@ -134,7 +134,7 @@ RSpec.describe PullRequestsController, type: :controller do
           { pull_request: valid_attributes, repo_id: repo.to_param },
           valid_session
         )
-        expect(session["flash"]["flashes"]["alert"])
+        expect(session['flash']['flashes']['alert'])
           .to eq 'User not on team tied to pull request\'s repo'
       end
     end
