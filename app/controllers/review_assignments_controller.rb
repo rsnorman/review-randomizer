@@ -1,6 +1,6 @@
 # Controller for assignements to review pull requests
 class ReviewAssignmentsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
 
   load_resource :pull_request
   load_and_authorize_resource :review_assignment, through: :pull_request

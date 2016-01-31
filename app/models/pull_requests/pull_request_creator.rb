@@ -14,7 +14,7 @@ module PullRequests
     def create
       PullRequest.transaction do
         create_pull_request.tap do |pull_request|
-          assign_reviewers(pull_request)
+          assign_reviewers(pull_request) if pull_request.persisted?
         end
       end
     end

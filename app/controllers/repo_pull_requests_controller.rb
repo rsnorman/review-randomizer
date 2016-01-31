@@ -1,6 +1,6 @@
 # Controller for pull requests in a repo
 class RepoPullRequestsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
 
   load_and_authorize_resource :repo, through: :current_company
 

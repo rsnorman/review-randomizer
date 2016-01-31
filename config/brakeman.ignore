@@ -1,0 +1,25 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d22ba2a11fa1a823d775b839ef0cca8365822715f76a26f7660cfd6dba78594f",
+      "message": "Possible SQL injection",
+      "file": "app/models/pull_requests/url_pull_request.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "PullRequest.find_by(PullRequests::UrlParser.new(url).as_json)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PullRequests::UrlPullRequest",
+        "method": "PullRequests::UrlPullRequest.find_by_url"
+      },
+      "user_input": "PullRequests::UrlParser.new(url).as_json",
+      "confidence": "High",
+      "note": ""
+    }
+  ],
+  "updated": "2016-01-31 16:20:54 -0500",
+  "brakeman_version": "3.1.5"
+}

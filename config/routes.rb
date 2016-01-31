@@ -15,5 +15,11 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  namespace :api do
+    namespace :v1 do
+      resources :pull_requests, only: :create
+    end
+  end
+
   root 'welcome#index'
 end
