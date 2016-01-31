@@ -28,9 +28,6 @@ gem 'devise'
 # For authorization junk
 gem 'cancancan', '~> 1.10'
 
-# For making sure my codez isn't junk
-gem 'rubocop'
-
 # For nicer forms and junk
 gem 'simple_form'
 
@@ -58,6 +55,12 @@ group :development, :test do
 
   # For faking names, emails, and junk
   gem 'faker'
+
+  # For making sure my codez isn't junk
+  gem 'rubocop'
+
+  # For making sure I don't do stupid security junk
+  gem 'brakeman'
 end
 
 group :test do
