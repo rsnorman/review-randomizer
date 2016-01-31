@@ -25,7 +25,7 @@ RSpec.describe 'api/v1/pull_requests/create', type: :view do
     expect(rendered_json['updated_at']).to eq pull_request.updated_at.iso8601
   end
 
-  it 'renders review assignemtn JSON' do
+  it 'renders review assignment JSON' do
     render
     rendered_json = JSON.parse(rendered)['pull_request']
     expect(rendered_json['review_assignments'].first)

@@ -1,4 +1,4 @@
-# Avoids timing attacks using Devise secure find
+# Avoids timing attacks using Devise #secure_compare
 module SecureFind
   def secure_find_resource_by(resource_class, attribute, value)
     found_instance_id = nil

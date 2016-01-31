@@ -21,7 +21,7 @@ module Api
       end
 
       def set_user_from_handle!
-        @user = secure_find_resource_by(User, :handle, user_handle)
+        @user = @company.users.find_by(handle: user_handle)
         render nothing: true, status: :unauthorized unless @user
       end
 

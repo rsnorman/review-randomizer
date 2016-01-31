@@ -15,11 +15,7 @@ RSpec.describe Api::V1::PullRequestsController, type: :controller do
     }
   end
 
-  let(:valid_session) do
-    {
-
-    }
-  end
+  let(:valid_session) { Hash[] }
 
   let(:user) { FactoryGirl.create(:user) }
   let(:repo) { FactoryGirl.create(:repo, owner: user) }
