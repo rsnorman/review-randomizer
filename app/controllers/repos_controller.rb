@@ -1,6 +1,7 @@
 # Controllers for repositories that will have PRs opened against it
 class ReposController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
+
   load_and_authorize_resource through: :current_company
 
   def create

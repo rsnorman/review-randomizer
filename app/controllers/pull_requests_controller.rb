@@ -1,6 +1,6 @@
 # Controller for pull requests
 class PullRequestsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
 
   rescue_from ReviewRandomizerError do |exception|
     flash[:alert] = exception.message

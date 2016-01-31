@@ -1,6 +1,6 @@
 # Controller for managing team memberships
 class TeamMembershipsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
 
   load_and_authorize_resource :team,            through: :current_company
   load_and_authorize_resource :team_membership, through: :team
