@@ -53,6 +53,18 @@ RSpec.describe PullRequests::PullRequestCreator do
         expect(pull_request.users.to_a.sort_by(&:id))
           .to eq([reviewer1, reviewer2])
       end
+
+      context 'with error creating pull request' do
+        before do
+          allow_any_instance_of(PullRequest)
+            .to receive(:persisted?)
+            .and_return false
+        end
+
+        it 'doesn\'t assign reviewers' do
+          expect { creator.create }.to change(ReviewAssignment, :count).by 0
+        end
+      end
     end
   end
 end
