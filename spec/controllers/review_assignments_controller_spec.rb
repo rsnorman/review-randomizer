@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe ReviewAssignmentsController, type: :controller do
   login_user
 
-  let(:team_membership) { FactoryGirl.create(:team_membership) }
+  let(:team)            { FactoryGirl.create(:team, leader: @user) }
+  let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
   let(:pull_request)    { FactoryGirl.create(:pull_request, author: @user) }
   let(:review_assignment) do
     FactoryGirl.create(
