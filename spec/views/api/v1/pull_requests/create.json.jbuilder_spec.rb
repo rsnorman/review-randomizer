@@ -29,9 +29,9 @@ RSpec.describe 'api/v1/pull_requests/create', type: :view do
     render
     rendered_json = JSON.parse(rendered)['pull_request']
     expect(rendered_json['review_assignments'].first)
-      .to eq review_assignment1.handle
+      .to eq review_assignment1.assignee_handle
     expect(rendered_json['review_assignments'].second)
-      .to eq review_assignment2.handle
+      .to eq review_assignment2.assignee_handle
   end
 
   it 'renders pull request actions' do

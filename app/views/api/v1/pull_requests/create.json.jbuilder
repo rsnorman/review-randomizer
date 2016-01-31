@@ -4,7 +4,7 @@ json.pull_request do
   json.number @pull_request.number
   json.created_at @pull_request.created_at.iso8601
   json.updated_at @pull_request.updated_at.iso8601
-  json.review_assignments @pull_request.review_assignments.map(&:handle)
+  json.review_assignments @pull_request.review_assignments.map(&:assignee_handle)
 
   json.actions do
     json.show(

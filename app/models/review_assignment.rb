@@ -7,7 +7,7 @@ class ReviewAssignment < ActiveRecord::Base
   validates :pull_request,    presence: true
   validates :team_membership, presence: true
 
-  def handle
+  def assignee_handle
     user ? user.handle : team_membership.handle
   end
 end

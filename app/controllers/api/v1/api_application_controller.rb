@@ -16,12 +16,12 @@ module Api
       private
 
       def set_company_from_token!
-        @company = find_resource_by(Company, :token, company_token)
+        @company = secure_find_resource_by(Company, :token, company_token)
         render nothing: true, status: :unauthorized unless @company
       end
 
       def set_user_from_handle!
-        @user = find_resource_by(User, :handle, user_handle)
+        @user = secure_find_resource_by(User, :handle, user_handle)
         render nothing: true, status: :unauthorized unless @user
       end
 

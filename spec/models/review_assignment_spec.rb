@@ -8,7 +8,7 @@ RSpec.describe ReviewAssignment, type: :model do
   it { is_expected.to validate_presence_of :pull_request }
   it { is_expected.to validate_presence_of :team_membership }
 
-  describe '#handle' do
+  describe '#assignee_handle' do
     let(:review_assignment) { FactoryGirl.build(:review_assignment) }
 
     context 'with user' do
@@ -16,7 +16,7 @@ RSpec.describe ReviewAssignment, type: :model do
       before { review_assignment.user = user }
 
       it 'returns user handle' do
-        expect(review_assignment.handle).to eq 'johnlithgow'
+        expect(review_assignment.assignee_handle).to eq 'johnlithgow'
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.describe ReviewAssignment, type: :model do
       before { review_assignment.team_membership.handle = 'dextermorgan' }
 
       it 'returns team membership handle' do
-        expect(review_assignment.handle).to eq 'dextermorgan'
+        expect(review_assignment.assignee_handle).to eq 'dextermorgan'
       end
     end
   end

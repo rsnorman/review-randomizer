@@ -1,6 +1,6 @@
 # Avoids timing attacks using Devise secure find
 module SecureFind
-  def find_resource_by(resource_class, attribute, value)
+  def secure_find_resource_by(resource_class, attribute, value)
     found_instance_id = nil
     resource_class.pluck(:id, attribute).each do |instance|
       if Devise.secure_compare(instance.second, value)
