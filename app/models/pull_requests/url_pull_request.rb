@@ -4,7 +4,7 @@ module PullRequests
     attr_accessor :url
 
     def self.find_by_url(url)
-      PullRequest.find_by(UrlParser.new(url).as_json)
+      PullRequest.find_by(PullRequests::UrlParser.new(url).as_json)
     end
 
     def __getobj__
