@@ -8,6 +8,10 @@ module Api
         render nothing: true, status: 404
       end
 
+      rescue_from Repos::TeamFinder::RepoTeamMismatch do |_exception|
+        render nothing: true, status: 404
+      end
+
       def create
         @pull_request = create_pull_request
       end

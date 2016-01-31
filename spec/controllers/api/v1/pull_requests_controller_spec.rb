@@ -106,5 +106,24 @@ RSpec.describe Api::V1::PullRequestsController, type: :controller do
         expect(response.status).to eq 404
       end
     end
+
+    context 'with user not on a repo team' do
+      before do
+        user.teams.delete(team)
+      end
+
+      it 'returns a 404' do
+        post(
+          :create,
+          {
+            pull_request: valid_attributes,
+            repo_id: repo.to_param,
+            format: :json
+          },
+          valid_session
+        )
+        expect(response.status).to eq 404
+      end
+    end
   end
 end
