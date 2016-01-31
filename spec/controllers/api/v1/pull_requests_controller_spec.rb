@@ -125,5 +125,33 @@ RSpec.describe Api::V1::PullRequestsController, type: :controller do
         expect(response.status).to eq 404
       end
     end
+
+    context 'with invalid token' do
+      before { request.env['HTTP_TOKEN'] = 'BADJUNK' }
+
+      it 'returns unauthorized' do
+        post(
+          :create,
+          pull_request: valid_attributes,
+          repo_id: repo.to_param,
+          format: :json
+        )
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'with invalid user handle' do
+      before { request.env['HTTP_HANDLE'] = 'BadJunk' }
+
+      it 'returns unauthorized' do
+        post(
+          :create,
+          pull_request: valid_attributes,
+          repo_id: repo.to_param,
+          format: :json
+        )
+        expect(response.status).to eq 401
+      end
+    end
   end
 end
