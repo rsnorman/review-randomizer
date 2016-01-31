@@ -1,5 +1,6 @@
 module Api
   module V1
+    # Base controller for API
     class ApiApplicationController < ApplicationController
       include SecureFind
 

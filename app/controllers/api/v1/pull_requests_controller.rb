@@ -1,5 +1,6 @@
 module Api
   module V1
+    # API for creating pull requests
     class PullRequestsController < ApiApplicationController
       respond_to :json
 
