@@ -3,7 +3,7 @@ module Api
     class PullRequestsController < ApiApplicationController
       respond_to :json
 
-      rescue_from PullRequests::UrlParser::MissingRepo do |exception|
+      rescue_from PullRequests::UrlParser::MissingRepo do |_exception|
         render nothing: true, status: 404
       end
 
