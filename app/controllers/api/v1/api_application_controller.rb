@@ -41,11 +41,11 @@ module Api
       end
 
       def company_token
-        request.headers['token']
+        request.headers['HTTP_TOKEN']
       end
 
       def user_handle
-        request.headers['handle']
+        request.headers['HTTP_HANDLE']
       end
     end
   end
