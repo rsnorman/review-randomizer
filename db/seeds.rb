@@ -9,7 +9,7 @@ company =
   Company.create(
     name: 'CoverMyMeds',
     domain: 'covermymeds.com',
-    owner: user
+    owner: user # didn't work
   )
 
 user.update_attribute(:company, company)
