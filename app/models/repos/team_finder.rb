@@ -17,8 +17,8 @@ module Repos
       end
     end
 
-    def for_team_member(user)
-      teams_for_team_member(user).tap do |teams|
+    def for_team_member(team_member)
+      teams_for_team_member(team_member).tap do |teams|
         if teams.size > 1
           fail RepoTeamConflict, 'Multiple teams exist for the repo'
         end
@@ -27,10 +27,10 @@ module Repos
 
     private
 
-    def teams_for_team_member(user)
+    def teams_for_team_member(team_member)
       repo.teams.select do |team|
-        team.users.where(id: user.id).exists? ||
-          team.team_memberships.where(id: user.id).exists?
+        team.users.where(id: team_member.id).exists? ||
+          team.team_memberships.where(id: team_member.id).exists?
       end
     end
 
