@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127021548) do
+ActiveRecord::Schema.define(version: 20160201012547) do
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(version: 20160127021548) do
     t.integer  "repo_id"
     t.string   "title"
     t.integer  "number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "author_id"
+    t.string   "author_type", default: "User"
   end
 
   add_index "pull_requests", ["author_id"], name: "index_pull_requests_on_author_id"

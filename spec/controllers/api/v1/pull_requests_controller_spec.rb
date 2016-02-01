@@ -17,16 +17,14 @@ RSpec.describe Api::V1::PullRequestsController, type: :controller do
 
   let(:valid_session) { Hash[] }
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:repo) { FactoryGirl.create(:repo, owner: user) }
-  let(:team) { FactoryGirl.create(:team) }
+  let(:user)    { FactoryGirl.create(:user) }
+  let(:repo)    { FactoryGirl.create(:repo) }
+  let(:team)    { FactoryGirl.create(:team) }
 
   before do
     team.repos << repo
     team.users << user
   end
-
-  let(:pull_request) { FactoryGirl.create(:pull_request, repo: repo) }
 
   describe 'POST #create' do
     before do
@@ -62,6 +60,46 @@ RSpec.describe Api::V1::PullRequestsController, type: :controller do
           valid_session
         )
         expect(assigns(:pull_request).author).to eq user
+      end
+    end
+
+    context 'with unregistered valid handle' do
+      let(:team_membership) do
+        FactoryGirl.create(:team_membership, handle: 'CosmoKramer', team: team)
+      end
+
+      before do
+        request.env['HTTP_HANDLE'] = team_membership.handle
+      end
+
+      it 'creates a new PullRequest' do
+        expect do
+          post(
+            :create,
+            { pull_request: valid_attributes, format: :json },
+            valid_session
+          )
+        end.to change(PullRequest, :count).by(1)
+      end
+
+      it 'assigns a newly created pull_request as @pull_request' do
+        post(
+          :create,
+          { pull_request: valid_attributes, format: :json },
+          valid_session
+        )
+        expect(assigns(:pull_request)).to be_a(PullRequest)
+        expect(assigns(:pull_request)).to be_persisted
+      end
+
+      it 'assigns the a temporary user as the author of the pull request' do
+        post(
+          :create,
+          { pull_request: valid_attributes, format: :json },
+          valid_session
+        )
+        expect(assigns(:pull_request).author)
+          .to eq Users::UnregisteredUser.new(team_membership)
       end
     end
 

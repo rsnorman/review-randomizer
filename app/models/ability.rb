@@ -8,6 +8,8 @@ class Ability
 
     if user.admin?
       can :manage, :all
+    elsif user.unregistered?
+      can :create, PullRequest
     else
       create_user_abilities
     end

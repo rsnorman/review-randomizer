@@ -4,6 +4,8 @@ module Api
     class PullRequestsController < ApiApplicationController
       respond_to :json
 
+      before_action :authorize_pull_request!
+
       rescue_from PullRequests::UrlParser::MissingRepo do |_exception|
         render nothing: true, status: 404
       end
@@ -17,6 +19,10 @@ module Api
       end
 
       private
+
+      def authorize_pull_request!
+        authorize! :create, PullRequest
+      end
 
       def pull_request_params
         params.require(:pull_request).permit(:url, :title).tap do |params|
