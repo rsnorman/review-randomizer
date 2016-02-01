@@ -39,12 +39,12 @@ ActiveRecord::Schema.define(version: 20160201012547) do
 
   create_table "repos", force: :cascade do |t|
     t.string   "organization"
+    t.string   "name"
     t.text     "description"
     t.string   "url"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "owner_id"
-    t.string   "name"
     t.integer  "company_id"
   end
 
@@ -72,9 +72,9 @@ ActiveRecord::Schema.define(version: 20160201012547) do
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
+    t.string   "handle"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "handle"
   end
 
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id"
