@@ -11,16 +11,16 @@ RSpec.describe Repos::TeamFinder do
     team.users << user
   end
 
-  describe '#for_user' do
+  describe '#for_team_member' do
     it 'returns the team that is tied to the repo for the user' do
-      expect(finder.for_user(user)).to eq team
+      expect(finder.for_team_member(user)).to eq team
     end
 
     context 'with no teams tied to the repo' do
       before { repo.teams.delete(team) }
 
       it 'returns nil' do
-        expect(finder.for_user(user)).to be_nil
+        expect(finder.for_team_member(user)).to be_nil
       end
     end
 
@@ -33,24 +33,32 @@ RSpec.describe Repos::TeamFinder do
       end
 
       it 'raises an exception' do
-        expect { finder.for_user(user) }.to raise_exception(
+        expect { finder.for_team_member(user) }.to raise_exception(
           Repos::TeamFinder::RepoTeamConflict,
           'Multiple teams exist for the repo'
         )
       end
     end
+
+    context 'with unregistered user' do
+      let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
+
+      it 'returns the team that is tied to the team membership' do
+        expect(finder.for_team_member(team_membership)).to eq team
+      end
+    end
   end
 
-  describe '#for_user!' do
+  describe '#for_team_member!' do
     it 'returns the team that is tied to the repo for the user' do
-      expect(finder.for_user!(user)).to eq team
+      expect(finder.for_team_member!(user)).to eq team
     end
 
     context 'with no teams tied to the repo' do
       before { repo.teams.delete(team) }
 
       it 'returns nil' do
-        expect { finder.for_user!(user) }.to raise_exception(
+        expect { finder.for_team_member!(user) }.to raise_exception(
           described_class::RepoTeamMismatch,
           'User not on team tied to pull request\'s repo'
         )

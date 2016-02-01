@@ -36,7 +36,7 @@ module PullRequests
     end
 
     def team
-      @team ||= team_finder.for_user!(attributes[:author])
+      @team ||= team_finder.for_team_member!(attributes[:author])
     end
 
     def team_finder

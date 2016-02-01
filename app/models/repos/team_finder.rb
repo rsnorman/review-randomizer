@@ -8,8 +8,8 @@ module Repos
       @repo = repo
     end
 
-    def for_user!(user)
-      for_user(user).tap do |team|
+    def for_team_member!(user)
+      for_team_member(user).tap do |team|
         fail(
           RepoTeamMismatch,
           'User not on team tied to pull request\'s repo'
@@ -17,8 +17,8 @@ module Repos
       end
     end
 
-    def for_user(user)
-      teams_for_user(user).tap do |teams|
+    def for_team_member(user)
+      teams_for_team_member(user).tap do |teams|
         if teams.size > 1
           fail RepoTeamConflict, 'Multiple teams exist for the repo'
         end
@@ -27,7 +27,7 @@ module Repos
 
     private
 
-    def teams_for_user(user)
+    def teams_for_team_member(user)
       repo.teams.select do |team|
         team.users.where(id: user.id).exists? ||
           team.team_memberships.where(id: user.id).exists?
