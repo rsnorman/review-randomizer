@@ -8,8 +8,10 @@ RSpec.describe Ability do
 
       if has_rule && @attributes
         ability.send(:rules).detect do |r|
-          r.actions.include?(action) && r.subjects.include?(subject)
-        end.conditions == @attributes
+          r.actions.include?(action)     &&
+            r.subjects.include?(subject) &&
+            r.conditions == @attributes
+        end.present?
       else
         has_rule
       end
@@ -49,7 +51,7 @@ RSpec.describe Ability do
         it 'allows read for repo owner' do
           expect(Ability.new(user))
             .to authorize(:read, Repo)
-            .with_attributes(owner_id: user.id)
+            .with_attributes(company_id: user.company_id)
         end
 
         it 'allows update for repo owner' do
@@ -73,7 +75,7 @@ RSpec.describe Ability do
         it 'allows read for team leader' do
           expect(Ability.new(user))
             .to authorize(:read, Team)
-            .with_attributes(leader_id: user.id)
+            .with_attributes(company_id: user.company_id)
         end
 
         it 'allows update for team leader' do
@@ -92,26 +94,14 @@ RSpec.describe Ability do
       describe 'TeamMembership permissions' do
         it 'allows create if team leader' do
           expect(Ability.new(user))
-            .to authorize(:create, TeamMembership)
+            .to authorize(:manage, TeamMembership)
             .with_attributes(team: { leader_id: user.id })
         end
 
         it 'allows read for team leader' do
           expect(Ability.new(user))
             .to authorize(:read, TeamMembership)
-            .with_attributes(team: { leader_id: user.id })
-        end
-
-        it 'allows update for team leader' do
-          expect(Ability.new(user))
-            .to authorize(:update, TeamMembership)
-            .with_attributes(team: { leader_id: user.id })
-        end
-
-        it 'allows destroy for team leader' do
-          expect(Ability.new(user))
-            .to authorize(:destroy, TeamMembership)
-            .with_attributes(team: { leader_id: user.id })
+            .with_attributes(team: { company_id: user.company_id })
         end
       end
 
@@ -119,50 +109,49 @@ RSpec.describe Ability do
         it 'allows create if repo owner' do
           expect(Ability.new(user))
             .to authorize(:create, PullRequest)
-            .with_attributes(repo: { owner_id: user.id })
         end
 
         it 'allows read for repo owner' do
           expect(Ability.new(user))
             .to authorize(:read, PullRequest)
-            .with_attributes(repo: { owner_id: user.id })
+            .with_attributes(repo: { company_id: user.company_id })
+        end
+
+        it 'allows update for pull request author' do
+          expect(Ability.new(user))
+            .to authorize(:manage, PullRequest)
+            .with_attributes(author_id: user.id)
         end
 
         it 'allows update for repo owner' do
           expect(Ability.new(user))
-            .to authorize(:update, PullRequest)
-            .with_attributes(repo: { owner_id: user.id })
-        end
-
-        it 'allows destroy for repo owner' do
-          expect(Ability.new(user))
-            .to authorize(:destroy, PullRequest)
+            .to authorize(:manage, PullRequest)
             .with_attributes(repo: { owner_id: user.id })
         end
       end
 
       describe 'ReviewAssignment permissions' do
+        it 'allows create if pull request repo owner' do
+          expect(Ability.new(user))
+            .to authorize(:manage, ReviewAssignment)
+            .with_attributes(pull_request: { repo: { owner_id: user.id } })
+        end
+
         it 'allows create if pull request author' do
           expect(Ability.new(user))
-            .to authorize(:create, ReviewAssignment)
+            .to authorize(:manage, ReviewAssignment)
             .with_attributes(pull_request: { author_id: user.id })
+        end
+
+        it 'allows create if team leader' do
+          expect(Ability.new(user))
+            .to authorize(:manage, ReviewAssignment)
+            .with_attributes(team: { leader_id: user.id })
         end
 
         it 'allows read for pull request author' do
           expect(Ability.new(user))
             .to authorize(:read, ReviewAssignment)
-        end
-
-        it 'allows update for pull request author' do
-          expect(Ability.new(user))
-            .to authorize(:update, ReviewAssignment)
-            .with_attributes(pull_request: { author_id: user.id })
-        end
-
-        it 'allows destroy for pull request author' do
-          expect(Ability.new(user))
-            .to authorize(:destroy, ReviewAssignment)
-            .with_attributes(pull_request: { author_id: user.id })
         end
       end
     end
