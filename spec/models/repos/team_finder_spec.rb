@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Repos::TeamFinder do
-  let(:repo)    { FactoryGirl.build(:repo) }
-  let(:team)    { FactoryGirl.build(:team) }
-  let(:user)    { FactoryGirl.build(:user) }
+  let(:repo)    { FactoryGirl.create(:repo) }
+  let(:team)    { FactoryGirl.create(:team) }
+  let(:user)    { FactoryGirl.create(:user) }
   let(:finder)  { described_class.new(repo) }
 
   before do
@@ -25,7 +25,7 @@ RSpec.describe Repos::TeamFinder do
     end
 
     context 'with multiple teams tied to the repo' do
-      let(:team2) { FactoryGirl.build(:team) }
+      let(:team2) { FactoryGirl.create(:team) }
 
       before do
         repo.teams << team2

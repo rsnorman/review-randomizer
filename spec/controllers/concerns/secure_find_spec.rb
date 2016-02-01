@@ -23,7 +23,7 @@ RSpec.describe SecureFind do
     end
 
     context 'with multiple resources' do
-      let!(:company2) { FactoryGirl.create(:company) }
+      let!(:company2) { FactoryGirl.create(:company, :multiple) }
 
       it 'does not exit upon first find' do
         expect(Devise).to receive(:secure_compare).twice
