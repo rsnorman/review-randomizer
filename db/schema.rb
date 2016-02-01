@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20160201012547) do
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
-    t.string   "token",      limit: 32
+    t.string   "token",      limit: 36
     t.string   "domain"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false

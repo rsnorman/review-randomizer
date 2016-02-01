@@ -2,7 +2,7 @@ class CreateCompanies < ActiveRecord::Migration
   def change
     create_table :companies do |t|
       t.string :name
-      t.string :token, limit: 32
+      t.string :token, limit: 36
       t.string :domain
 
       t.timestamps null: false
