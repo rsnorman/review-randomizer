@@ -9,7 +9,7 @@ class AddCompanyAssociations < ActiveRecord::Migration
     add_index :teams, :company_id
 
     add_column :repos, :company_id, :integer
-    add_foreign_key :companies, :companies
+    add_foreign_key :repos, :companies
     add_index :repos, :company_id
 
     remove_column :repos, :company, :string
