@@ -1,19 +1,35 @@
-user =
+puts 'Create Admin'
+admin =
   User.create(
-    name: 'Ryan Norman',
-    email: 'rnorman@covermymeds.com',
-    handle: 'RyanNorman'
+    name: 'Admin',
+    email: 'admin@agileshuffle.com',
+    handle: 'admin',
+    role: 'Admin',
+    password: 'changeme'
   )
 
+puts 'Create Company'
 company =
   Company.create(
     name: 'CoverMyMeds',
     domain: 'covermymeds.com',
-    owner: user # didn't work
+    owner: admin
   )
 
-user.update_attribute(:company, company)
+puts 'Create User'
+user =
+  User.create(
+    name: 'Ryan Norman',
+    email: 'rnorman@covermymeds.com',
+    handle: 'RyanNorman',
+    company: company,
+    password: 'changeme'
+  )
 
+puts 'Assign user as owner of company'
+company.update_attribute(:owner, user)
+
+puts 'Create Repo'
 repo =
   Repo.create(
     organization: 'PBM',
@@ -24,6 +40,7 @@ repo =
     company: company
   )
 
+puts 'Create Team'
 team =
   Team.create(
     name: 'Centinels',
@@ -31,7 +48,10 @@ team =
     company: company
   )
 
+puts 'Add team to repo'
 repo.teams << team
+
+puts 'Add user to team members'
 team.users << user
 
 %w(
@@ -50,5 +70,6 @@ team.users << user
   AlexBurkhart
   BenBeckwith
 ).each do |handle|
+  puts "Create team membership for #{handle}"
   TeamMembership.create(team: team, handle: handle)
 end
