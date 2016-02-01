@@ -155,5 +155,17 @@ RSpec.describe Ability do
         end
       end
     end
+
+    context 'with unregistered user' do
+      let(:role) { 'Unregistered' }
+      before { allow(user).to receive(:unregistered?).and_return true }
+
+      describe 'PullRequest permissions' do
+        it 'allows create' do
+          expect(Ability.new(user))
+            .to authorize(:create, PullRequest)
+        end
+      end
+    end
   end
 end
