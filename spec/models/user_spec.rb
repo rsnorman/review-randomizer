@@ -31,4 +31,12 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#unregistered?' do
+    let(:user) { FactoryGirl.build(:user) }
+
+    it 'returns false' do
+      expect(user.unregistered?).to be_falsey
+    end
+  end
 end
