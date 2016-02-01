@@ -9,6 +9,10 @@ module Api
       skip_before_action :authenticate_user!
       before_action :set_company_from_token!, :set_user_from_handle!
 
+      rescue_from CanCan::AccessDenied do |_exception|
+        render nothing: true, status: 404
+      end
+
       def current_user
         @user
       end

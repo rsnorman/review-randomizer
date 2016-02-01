@@ -13,6 +13,18 @@ module Users
       TeamMembership
     end
 
+    def admin?
+      false
+    end
+
+    def unregistered?
+      true
+    end
+
+    def role
+      'Unregistered'
+    end
+
     def ==(other)
       id == other.id
     end
