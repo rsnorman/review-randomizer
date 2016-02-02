@@ -31,6 +31,12 @@ gem 'cancancan', '~> 1.10'
 # For nicer forms and junk
 gem 'simple_form'
 
+# For error tracking junk
+gem 'rollbar', '~> 2.7.1'
+
+# For better JSON serialization junk
+gem 'oj', '~> 2.12.14'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
