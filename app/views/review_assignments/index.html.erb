@@ -24,4 +24,5 @@
 
 <br>
 
-<%= link_to 'New Review assignment', new_pull_request_review_assignment_path(@pull_request) %>
+<%= link_to 'New Review assignment', new_pull_request_review_assignment_path(@pull_request) %> |
+<%= link_to 'Back', repo_pull_request_path(@pull_request.repo, @pull_request) %>
