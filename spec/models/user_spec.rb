@@ -39,4 +39,29 @@ RSpec.describe User, type: :model do
       expect(user.unregistered?).to be_falsey
     end
   end
+
+  describe '#set_company' do
+    let(:company) { FactoryGirl.create(:company) }
+    let(:user) do
+      FactoryGirl.build(
+        :user,
+        email: "#{Faker::Internet.user_name}@#{company.domain}",
+        company: nil
+      )
+    end
+
+    it 'sets the company based on the email domain' do
+      user.save
+      expect(user.company).to eq company
+    end
+
+    context 'with email domain not matching company' do
+      before { user.email = 'other@domain.com' }
+
+      it 'doesn\'t set company' do
+        user.save
+        expect(user.company).to be_nil
+      end
+    end
+  end
 end

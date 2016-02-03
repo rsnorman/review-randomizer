@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
   before_validation :set_company
 
   def set_company
-    self.company = Company.find_by(domain: email.split('@').last)
+    return unless email
+    self.company ||= Company.find_by(domain: email.split('@').last)
   end
 
   def admin?
