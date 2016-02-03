@@ -37,6 +37,9 @@ gem 'rollbar', '~> 2.7.1'
 # For better JSON serialization junk
 gem 'oj', '~> 2.12.14'
 
+# For sending junk mail
+gem 'mailgun_rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
